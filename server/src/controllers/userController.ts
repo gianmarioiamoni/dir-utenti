@@ -1,8 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import User from "../models/User";
+import next from "next";
 
 // Get all users (with pagination)
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // Pagination parameters
     // read page parameter from query string and convert to int
@@ -17,29 +22,37 @@ export const getUsers = async (req: Request, res: Response) => {
     res.json(users);
     return;
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err });
+    next(err);
     return;
   }
 };
 
 // Get user by ID
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const user = await User.findById(req.params.id);
-      if (!user) {
-          res.status(404).json({ message: "User not found" });
-          return;
-      }
-      res.json(user);
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
       return;
+    }
+    res.json(user);
+    return;
   } catch (err) {
-      res.status(500).json({ message: "Server Error", error: err });
-      return; 
+    next(err);
+    return;
   }
 };
 
 // Create a new user
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { nome, cognome, email, dataNascita, fotoProfilo } = req.body;
     const newUser = new User({
@@ -51,11 +64,11 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     await newUser.save();
-    
+
     res.status(201).json(newUser);
     return;
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err });
+    next(err);
     return;
   }
 };

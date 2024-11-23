@@ -1,17 +1,27 @@
 import express, { Express } from "express";
 import mongoose from "mongoose";
+
 import dotenv from "dotenv";
 dotenv.config();
 
 import userRoutes from "./routes/userRoutes";
+import errorHandler from "./middlewares/errorHandler";
 
 const app: Express = express();
 
-// Middleware
+// Middleware for JSON parsing
 app.use(express.json());
 
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://localhost:27017/dir-utenti";
+
+// Routes
+app.use("/api/users", userRoutes);
+
+
+// Middleware for errors handling
+app.use(errorHandler); 
+
 
 // Connessione al database MongoDB
 const connectDB = async () => {
@@ -26,7 +36,5 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-
-app.use("/api/users", userRoutes);
 
 export { app, connectDB };
