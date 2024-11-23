@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "./src/models/User"; 
+import User, { IUser } from "./src/models/User"; 
 import { faker } from "@faker-js/faker";
 
 import dotenv from "dotenv";
@@ -21,22 +21,23 @@ const seedDatabase = async () => {
     console.log("Dati esistenti rimossi.");
 
     // Crea N_USERS utenti casuali
-    const users = [];
+    const users: IUser[] = [];
     for (let i = 0; i < N_USERS; i++) {
-      users.push({
+      const user = await User.create({
         nome: faker.person.firstName(),
         cognome: faker.person.lastName(),
         email: faker.internet.email(),
         dataNascita: faker.date.birthdate({ min: 18, max: 65, mode: "age" }),
         fotoProfilo: faker.image.avatar(),
       });
+      users.push(user);
     }
 
-    // Inserisci gli utenti nel database
+    // Inserisce gli utenti nel database
     await User.insertMany(users);
     console.log("25 utenti creati con successo!");
 
-    // Chiudi la connessione
+    // Chiude la connessione
     mongoose.connection.close();
     console.log("Connessione al database chiusa.");
   } catch (err) {
@@ -45,5 +46,4 @@ const seedDatabase = async () => {
   }
 };
 
-// Esegui lo script di seed
 seedDatabase();

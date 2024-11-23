@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json", 
+  "compilerOptions": {
+    "types": ["jest", "node"], 
+    "outDir": "./dist/test", 
+    "isolatedModules": true, 
+    "esModuleInterop": true, 
+    "moduleResolution": "node", 
+    "skipLibCheck": true, 
+    "strict": true 
+  },
+  "include": [
+    "src/**/*.ts", 
+    "tests/**/*.ts" 
+  ],
+  "exclude": ["node_modules"] 
+}
