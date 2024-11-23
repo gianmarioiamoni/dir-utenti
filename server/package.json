@@ -18,7 +18,8 @@
     "express": "^4.21.1",
     "faker": "^6.6.6",
     "mongodb": "^6.10.0",
-    "mongoose": "^8.8.2"
+    "mongoose": "^8.8.2",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
