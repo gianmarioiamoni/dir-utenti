@@ -5,15 +5,18 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon node dist/server.js",
-    "dev": "ts-node src/server.ts"
+    "dev": "ts-node src/server.ts",
+    "seed": "ts-node seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@faker-js/faker": "^9.2.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "faker": "^6.6.6",
     "mongodb": "^6.10.0",
     "mongoose": "^8.8.2"
   },

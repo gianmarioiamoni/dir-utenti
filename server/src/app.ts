@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-//import userRoutes from "./routes/userRoutes";
+import userRoutes from "./routes/userRoutes";
 
 const app: Express = express();
 
@@ -27,6 +27,6 @@ const connectDB = async () => {
   }
 };
 
-//app.use("/api/users", userRoutes);
+app.use("/api/users", userRoutes);
 
 export { app, connectDB };
