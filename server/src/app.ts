@@ -1,6 +1,8 @@
 import express, { Express } from "express";
 import mongoose from "mongoose";
 
+import { setupSwagger } from "./config/swagger";
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -18,6 +20,8 @@ const MONGODB_URI =
 // Routes
 app.use("/api/users", userRoutes);
 
+// Swagger
+setupSwagger(app);
 
 // Middleware for errors handling
 app.use(errorHandler); 
