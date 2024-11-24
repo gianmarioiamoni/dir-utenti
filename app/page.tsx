@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useUsers } from "../hooks/useUsers";
 
 import Navbar from "@/components/NavBar";
-import Footer from "@/components/Footer";
 
 const ITEMS_PER_PAGE = 10;
 
