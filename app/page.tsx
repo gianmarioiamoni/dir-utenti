@@ -40,14 +40,15 @@ export default function Home(): JSX.Element {
           // Scheda utente
           <div
             key={user._id}
-            className="w-full max-w-xs p-4 bg-foreground border border-gray-200 rounded-lg shadow hover:shadow-md transition-shadow"
+            className="w-full max-w-xs p-4 bg-card-bg border border-card-border rounded-lg shadow hover:shadow-md transition-shadow"
           >
             <div className="flex flex-col items-center text-center space-y-2">
               {/* Iniziali */}
-              <div className="bg-gray-300 w-14 h-14 flex items-center justify-center rounded-full text-gray-400 font-bold text-lg mb-2">
+              <div className="bg-initials-bg w-14 h-14 flex items-center justify-center rounded-full text-initials-text font-bold text-lg mb-2">
                 {user.nome[0]}{user.cognome[0]}
               </div>
-              <h3 className="font-semibold text-gray-600 text-sm">{user.nome} {user.cognome}</h3>
+              {/* Nome e Cognome */}
+              <h3 className="font-semibold text-name-text text-sm">{user.nome} {user.cognome}</h3>
               {/* Tooltip e Troncamento dell'email */}
               <p
                 className="text-xs text-gray-500 max-w-full overflow-hidden text-ellipsis whitespace-nowrap"

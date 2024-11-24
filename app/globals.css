@@ -11,6 +11,11 @@
   --accent: #f59e0b; 
   --error: #dc2626; 
   --hover: #2563eb;
+  --card-bg: #d8d8d8; /* Sfondo delle schede per il tema chiaro */
+  --card-border: #b0b0b0; /* Colore del bordo */
+  --initials-bg: #c3c6cb; /* Sfondo delle iniziali */
+  --initials-text: #6b7280; /* Testo delle iniziali */
+  --name-text: var(--accent);
 }
 
 /* Dark theme color variables */
@@ -23,6 +28,11 @@
     --accent: #fbbf24;
     --error: #ef4444;
     --hover: #1e40af;
+    --card-bg: #1f2937; /* Sfondo delle schede per il tema scuro */
+    --card-border: #4b5563; /* Colore del bordo */
+    --initials-bg: #374151; /* Sfondo delle iniziali */
+    --initials-text: #d1d5db; /* Testo delle iniziali */
+    --name-text: var(--accent);
   }
 }
 

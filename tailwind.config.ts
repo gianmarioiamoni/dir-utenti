@@ -16,6 +16,11 @@ const config: Config = {
         accent: "var(--accent)",
         error: "var(--error)",
         hover: "var(--hover)",
+        'card-bg': "var(--card-bg)",
+        'card-border': "var(--card-border)",
+        'initials-bg': "var(--initials-bg)",
+        'initials-text': "var(--initials-text)",
+        'name-text': "var(--name-text)"
       },
       fontFamily: {
         sans: ["Arial", "Helvetica", "sans-serif"],
