@@ -11,10 +11,15 @@ export interface User {
   fotoProfilo?: string;
 }
 
+export interface FetchUsersResponse {
+  users: User[];
+  total: number;
+}
+
 export const fetchUsers = async (
   page: number,
   limit: number
-): Promise<User[]> => {
+): Promise<FetchUsersResponse> => {
   const response = await axios.get(`${API_URL}/users`, {
     params: { page, limit, fields: "nome,cognome,email" },
   });

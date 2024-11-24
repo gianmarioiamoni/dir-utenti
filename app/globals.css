@@ -2,15 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light theme color variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #1d4ed8; /* Blu primario */
-  --secondary: #64748b; /* Grigio */
-  --accent: #f59e0b; /* Giallo acceso */
-  --error: #dc2626; /* Rosso per errori */
+  --primary: #1d4ed8; 
+  --secondary: #64748b; 
+  --accent: #f59e0b; 
+  --error: #dc2626; 
+  --hover: #2563eb;
 }
 
+/* Dark theme color variables */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,6 +22,7 @@
     --secondary: #94a3b8;
     --accent: #fbbf24;
     --error: #ef4444;
+    --hover: #1e40af;
   }
 }
 
@@ -26,4 +30,19 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Tailwind custom class for buttons */
+@layer components {
+  .btn {
+    @apply bg-primary text-white px-4 py-2 rounded-lg border transition;
+  }
+
+  .btn:hover {
+    @apply bg-hover;
+  }
+
+  .btn-inactive {
+    @apply bg-gray-200 text-gray-500 px-4 py-2 rounded-lg border cursor-not-allowed
+  }
 }

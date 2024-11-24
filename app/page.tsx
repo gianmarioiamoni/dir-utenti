@@ -7,7 +7,10 @@ const ITEMS_PER_PAGE = 10;
 
 export default function Home(): JSX.Element {
   const [page, setPage] = useState(1);
-  const { data: users, isLoading, isError, error } = useUsers(page, ITEMS_PER_PAGE);
+  const { data: usersData, isLoading, isError, error } = useUsers(page, ITEMS_PER_PAGE);
+
+  const { users, total = 0 } = usersData || {};
+  const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
   if (isLoading) {
     return (
@@ -21,7 +24,7 @@ export default function Home(): JSX.Element {
   if (isError) {
     return (
       <div className="text-center text-red-500">
-        Errore: {error instanceof Error ? error.message : "Errore sconosciuto"}
+        Errore: {error instanceof Error ? error.message : "Errore di caricamento dati"}
       </div>
     );
   }
@@ -33,12 +36,15 @@ export default function Home(): JSX.Element {
       {/* Lista Utenti */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
         {users?.map((user) => (
+          
+          // Scheda utente
           <div
             key={user._id}
-            className="w-full max-w-xs p-4 bg-white border border-gray-200 rounded-lg shadow hover:shadow-md transition-shadow"
+            className="w-full max-w-xs p-4 bg-foreground border border-gray-200 rounded-lg shadow hover:shadow-md transition-shadow"
           >
             <div className="flex flex-col items-center text-center space-y-2">
-              <div className="bg-gray-100 w-14 h-14 flex items-center justify-center rounded-full text-gray-400 font-bold text-lg mb-2">
+              {/* Iniziali */}
+              <div className="bg-gray-300 w-14 h-14 flex items-center justify-center rounded-full text-gray-400 font-bold text-lg mb-2">
                 {user.nome[0]}{user.cognome[0]}
               </div>
               <h3 className="font-semibold text-gray-600 text-sm">{user.nome} {user.cognome}</h3>
@@ -51,28 +57,36 @@ export default function Home(): JSX.Element {
               </p>
             </div>
           </div>
+
         ))}
       </div>
 
       {/* Paginazione */}
       <div className="mt-6 flex justify-center items-center gap-4">
+        {/* Bottone Precedente */}
         <button
           disabled={page === 1}
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          className={`px-4 py-2 rounded-lg border ${page === 1
-            ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-            : "bg-blue-500 text-white hover:bg-blue-600"
+          className={`${page === 1
+            ? "btn-inactive"
+            : "btn"
             } transition`}
         >
           Precedente
         </button>
+        {/* Bottone Successivo */}
         <button
+          disabled={page === totalPages}
           onClick={() => setPage((prev) => prev + 1)}
-          className="px-4 py-2 rounded-lg border bg-blue-500 text-white hover:bg-blue-600 transition"
+          className={`${page === totalPages
+            ? "btn-inactive"
+            : "btn"
+            } transition`}
         >
           Successivo
         </button>
       </div>
+
     </div>
   );
 }

@@ -20,7 +20,7 @@ export const getUsers = async (
 
     const total = await User.countDocuments();
 
-    res.json(users);
+    res.json({users, total});
     return;
   } catch (err) {
     next(err);

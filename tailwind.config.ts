@@ -9,15 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)", // Colore di sfondo
-        foreground: "var(--foreground)", // Colore principale del testo
-        primary: "var(--primary)", // Colore primario
-        secondary: "var(--secondary)", // Colore secondario
-        accent: "var(--accent)", // Colore di accento
-        error: "var(--error)", // Colore per gli errori
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: "var(--primary)",
+        secondary: "var(--secondary)",
+        accent: "var(--accent)",
+        error: "var(--error)",
+        hover: "var(--hover)",
       },
       fontFamily: {
-        sans: ["Arial", "Helvetica", "sans-serif"], // Font principale
+        sans: ["Arial", "Helvetica", "sans-serif"],
       },
     },
   },
