@@ -11,11 +11,12 @@
   --accent: #f59e0b; 
   --error: #dc2626; 
   --hover: #2563eb;
-  --card-bg: #d8d8d8; /* Sfondo delle schede per il tema chiaro */
-  --card-border: #b0b0b0; /* Colore del bordo */
-  --initials-bg: #c3c6cb; /* Sfondo delle iniziali */
-  --initials-text: #6b7280; /* Testo delle iniziali */
+  --card-bg: #d8d8d8; /* user card background for light theme */
+  --card-border: #b0b0b0; /* border color for light theme */
+  --initials-bg: #c3c6cb; /* Initials background for light theme */
+  --initials-text: #6b7280; /* Initials text for light theme */
   --name-text: var(--accent);
+  --card-hover-bg: rgba(216, 216, 216, 0.5);;
 }
 
 /* Dark theme color variables */
@@ -28,11 +29,12 @@
     --accent: #fbbf24;
     --error: #ef4444;
     --hover: #1e40af;
-    --card-bg: #1f2937; /* Sfondo delle schede per il tema scuro */
-    --card-border: #4b5563; /* Colore del bordo */
-    --initials-bg: #374151; /* Sfondo delle iniziali */
-    --initials-text: #d1d5db; /* Testo delle iniziali */
+    --card-bg: #1f2937; /* user card background for dark theme */
+    --card-border: #4b5563; /* border color for dark theme */
+    --initials-bg: #374151; /* Initials background for dark theme */
+    --initials-text: #d1d5db; /* Initials text for dark theme */
     --name-text: var(--accent);
+    --card-hover-bg: rgba(0, 0, 0, 0.5);
   }
 }
 
