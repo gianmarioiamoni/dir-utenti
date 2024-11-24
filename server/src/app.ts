@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
 import { setupSwagger } from "./config/swagger";
 
@@ -10,6 +11,13 @@ import userRoutes from "./routes/userRoutes";
 import errorHandler from "./middlewares/errorHandler";
 
 const app: Express = express();
+
+// Cors: allow localhost:3000 
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+}));
 
 // Middleware for JSON parsing
 app.use(express.json());
