@@ -1,38 +1,51 @@
-// /app/page.tsx
 "use client";
 
-import { UserList } from '../components/UserList';
-import { useUsers } from '../hooks/useUsers';
+import { useState } from "react";
+import { useUsers } from "../hooks/useUsers";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function Home(): JSX.Element {
-  const { users, page, setPage, loading, error } = useUsers(1, ITEMS_PER_PAGE);
+  const [page, setPage] = useState(1);
+  const { data: users, isLoading, isError, error } = useUsers(page, ITEMS_PER_PAGE);
+
+  if (isLoading) {
+    return <p>Caricamento...</p>;
+  }
+
+  if (isError) {
+    return <p>Errore: {error instanceof Error ? error.message : "Errore sconosciuto"}</p>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Elenco Utenti</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {users?.map((user) => (
+          <div key={user._id} className="p-4 border rounded shadow">
+            <h3 className="font-bold text-lg">
+              {user.nome} {user.cognome}
+            </h3>
+            <p>{user.email}</p>
+          </div>
+        ))}
+      </div>
 
-      {loading && <p className="text-center text-lg">Caricamento...</p>}
-      {error && <p className="text-center text-red-500">{error}</p>}
-      {!loading && !error && <UserList users={users} />}
-
-      <div className="flex justify-between items-center mt-4">
+      <div className="mt-4 flex justify-center">
         <button
-          onClick={() => setPage((prev) => Math.max(1, prev - 1))}
-          className={`bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 ${page === 1 && 'opacity-50 pointer-events-none'
-            }`}
+          disabled={page === 1}
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          className="px-4 py-2 mr-2 border rounded bg-gray-200 hover:bg-gray-300"
         >
-          Indietro
+          Precedente
         </button>
-        <span>Pagina {page}</span>
         <button
           onClick={() => setPage((prev) => prev + 1)}
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+          className="px-4 py-2 border rounded bg-gray-200 hover:bg-gray-300"
         >
-          Avanti
+          Successivo
         </button>
       </div>
     </div>
   );
 }
+

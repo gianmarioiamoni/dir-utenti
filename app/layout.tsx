@@ -1,17 +1,18 @@
 // /app/layout.tsx
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+"use client";
+
+import { ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="it">
-      <head />
-      <body className="bg-gray-100">
-        <header className="p-4 bg-blue-500 text-white">
-          <h1 className="text-xl">Directory Utenti</h1>
-        </header>
-        <main>{children}</main>
+    <html lang="en">
+      <body>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
       </body>
     </html>
   );
