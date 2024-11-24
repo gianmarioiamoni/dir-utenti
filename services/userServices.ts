@@ -16,7 +16,7 @@ export const fetchUsers = async (
   limit: number
 ): Promise<User[]> => {
   const response = await axios.get(`${API_URL}/users`, {
-    params: { page, limit },
+    params: { page, limit, fields: "nome,cognome,email" },
   });
   console.log("fetchUsers - response.data", response.data);
   return response.data;

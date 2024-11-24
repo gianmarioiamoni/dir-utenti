@@ -26,7 +26,9 @@ const router: Router = Router();
  *                 properties:
  *                   id:
  *                     type: string
- *                   name:
+ *                   nome:
+ *                     type: string
+ *                   cognome:
  *                     type: string
  *                   email:
  *                     type: string
@@ -56,7 +58,9 @@ router.get("/", getUsers);
  *               properties:
  *                 id:
  *                   type: string
- *                 name:
+ *                 nome:
+ *                   type: string
+ *                 cognome:
  *                   type: string
  *                 email:
  *                   type: string
@@ -78,7 +82,7 @@ router.get("/:id", getUserById);
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               nome:
  *                 type: string
  *               email:
  *                 type: string

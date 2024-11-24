@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import User from "../models/User";
-import next from "next";
 
 // Get all users (with pagination)
 export const getUsers = async (
@@ -8,17 +7,19 @@ export const getUsers = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    // Pagination parameters
-    // read page parameter from query string and convert to int
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = 10; // number of users per page
-    // starting point of the current page
-    const skip = (page - 1) * limit; // number of users to be skip to reach the current page
+  const {
+    page = 1,
+    limit = 10,
+    fields = "firstName lastName email",
+  } = req.query;
 
-    // Find all users, skip to the starting point of the current page,
-    // and limit to the number of users per page
-    const users = await User.find().skip(skip).limit(limit);
+  try {
+    const users = await User.find({}, fields.toString().split(",").join(" "))
+      .skip((Number(page) - 1) * Number(limit))
+      .limit(Number(limit));
+
+    const total = await User.countDocuments();
+
     res.json(users);
     return;
   } catch (err) {
