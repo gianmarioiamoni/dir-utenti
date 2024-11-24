@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light theme color variables */
+
 :root {
+  /* Light theme color variables */
   --background: #ffffff;
   --foreground: #171717;
   --primary: #1d4ed8; 
@@ -16,7 +17,10 @@
   --initials-bg: #c3c6cb; /* Initials background for light theme */
   --initials-text: #6b7280; /* Initials text for light theme */
   --name-text: var(--accent);
-  --card-hover-bg: rgba(216, 216, 216, 0.5);;
+  --card-hover-bg: rgba(216, 216, 216, 0.5);
+  /* Rules for footer and navbar */
+  --navbar-height: 64px;
+  --footer-height: 32px;
 }
 
 /* Dark theme color variables */
@@ -42,6 +46,19 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+#root,
+#__next {
+  height: 100%;
+}
+
+.flex-grow {
+  flex-grow: 1; /* Area espandibile */
+}
+
+.min-h-screen {
+  min-height: 100vh; /* Assicura che l'altezza totale sia almeno quella della viewport */
 }
 
 /* Tailwind custom class for buttons */
