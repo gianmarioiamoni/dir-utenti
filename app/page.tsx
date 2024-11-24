@@ -45,7 +45,7 @@ export default function Home(): JSX.Element {
           // Scheda utente
           <div
             key={user._id}
-            className="w-full max-w-xs p-4 bg-card-bg border border-card-border rounded-lg shadow hover:shadow-md transition-shadow"
+            className="relative w-full max-w-xs p-4 bg-card-bg border border-card-border rounded-lg shadow transition-transform hover:scale-105 hover:shadow-lg group"
           >
             <div className="flex flex-col items-center text-center space-y-2">
               {/* Iniziali */}
@@ -57,10 +57,15 @@ export default function Home(): JSX.Element {
               {/* Tooltip e Troncamento dell'email */}
               <p
                 className="text-xs text-gray-500 max-w-full overflow-hidden text-ellipsis whitespace-nowrap"
-                title={user.email}  // Mostra l'email completa al passaggio del mouse
+                title={user.email}
               >
                 {user.email}
               </p>
+            </div>
+
+            {/* Overlay per hover */}
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <p className="text-white font-semibold text-sm">Click to show details</p>
             </div>
           </div>
         ))}
