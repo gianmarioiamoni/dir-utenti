@@ -15,7 +15,7 @@ export default function Home(): JSX.Element {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full border-4 border-t-4 border-gray-400 w-16 h-16 mb-4"></div>
+        <div className="animate-spin rounded-full border-4 border-t-4 border-foreground border-t-primary w-16 h-16 mb-4"></div>
         <p className="text-center text-gray-500">Caricamento...</p>
       </div>
     );
