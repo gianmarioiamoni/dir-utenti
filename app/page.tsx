@@ -5,7 +5,7 @@ import { useUsers } from "../hooks/useUsers";
 
 import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
-import { User } from "../services/userServices";
+import { User } from "@/interfaces/userInterfaces";
 
 const ITEMS_PER_PAGE = 10;
 

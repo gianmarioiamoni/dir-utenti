@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NewUser } from "../services/userServices";
+import { NewUser } from "@/interfaces/userInterfaces";
 
 // interface CreateUserModalProps {
 //     isOpen: boolean;

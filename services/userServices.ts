@@ -1,29 +1,11 @@
 import axios from "axios";
 
+import {User, FetchUsersResponse} from "@/interfaces/userInterfaces"
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
-export interface User {
-  _id: string;
-  nome: string;
-  cognome: string;
-  email: string;
-  dataNascita: Date;
-  fotoProfilo?: string;
 
-}
 
-export interface NewUser {
-  nome: string;
-  cognome: string;
-  email: string;
-  dataNascita: string;
-  fotoProfilo?: string;
-}
-
-export interface FetchUsersResponse {
-  users: User[];
-  total: number;
-}
 
 export const fetchUsers = async (
   page: number,

@@ -2,7 +2,9 @@
 import { GetServerSideProps } from 'next';
 import { format } from 'date-fns';
 
-import { fetchUserDetails, User } from '../../../services/userServices';
+import { User } from '@/interfaces/userInterfaces';
+
+import {fetchUserDetails} from "@/services/userServices";
 
 interface UserDetailProps {
     user: User;

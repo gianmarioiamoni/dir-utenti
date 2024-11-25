@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { User } from '../services/userServices';
+import { User } from '@/interfaces/userInterfaces';
 
 interface UserListProps {
     users: User[];
