@@ -8,7 +8,7 @@ dotenv.config();
 const MONGO_URI =
   process.env.MONGODB_URI || "mongodb://localhost:27017/dir-utenti";
 
-const N_USERS = 77;
+const N_USERS = 137;
 
 const seedDatabase = async () => {
   try {

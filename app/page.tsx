@@ -15,13 +15,16 @@ export default function Home(): JSX.Element {
   const TOTAL_PAGES = Math.ceil(total / ITEMS_PER_PAGE);
 
   // Calcolo le pagine da visualizzare
-  const PAGE_LIMIT = 5; // Mostra al massimo 5 bottoni per pagina
-
-  // Trova il gruppo di 5 pagine da visualizzare
+  const PAGE_LIMIT = 5; // Mostra al massimo 5 bottoni per gruppo
   const startPage = Math.floor((page - 1) / PAGE_LIMIT) * PAGE_LIMIT + 1;
   const endPage = Math.min(startPage + PAGE_LIMIT - 1, TOTAL_PAGES);
 
-
+  // Gestione click su pagina
+  const handlePageClick = (pageNumber: number) => {
+    if (pageNumber >= 1 && pageNumber <= TOTAL_PAGES) {
+      setPage(pageNumber);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -40,15 +43,6 @@ export default function Home(): JSX.Element {
     );
   }
 
-  // const handlePageClick = (newPage: number) => {
-  //   if (newPage >= 1 && newPage <= TOTAL_PAGES) {
-  //     setPage(newPage);
-  //   }
-  // };
-  const handlePageClick = (pageNumber: number) => {
-    setPage(pageNumber); // Imposta la pagina corrente
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -58,28 +52,12 @@ export default function Home(): JSX.Element {
         {/* Lista Utenti */}
         <main className="main-container">
           {users?.map((user) => (
-            // Scheda utente
-            <div
-              key={user._id}
-              className="card-div group"
-            >
+            <div key={user._id} className="card-div group">
               <div className="flex flex-col items-center text-center space-y-2">
-                {/* Iniziali */}
-                <div className="card-initials-div">
-                  {user.nome[0]}{user.cognome[0]}
-                </div>
-                {/* Nome e Cognome */}
+                <div className="card-initials-div">{user.nome[0]}{user.cognome[0]}</div>
                 <h3 className="font-semibold text-name-text text-sm">{user.nome} {user.cognome}</h3>
-                {/* Tooltip e Troncamento dell'email */}
-                <p
-                  className="card-email-p"
-                  title={user.email}
-                >
-                  {user.email}
-                </p>
+                <p className="card-email-p" title={user.email}>{user.email}</p>
               </div>
-
-              {/* Overlay per hover */}
               <div className="card-hover-overlay">
                 <p className="text-foreground font-semibold text-sm">Click to show details</p>
               </div>
@@ -89,14 +67,37 @@ export default function Home(): JSX.Element {
 
         {/* Paginazione */}
         <div className="paging-div">
-          {/* Bottone Precedente */}
+          {/* Bottone Prima */}
           <button
             disabled={page === 1}
-            onClick={() => handlePageClick(page - 1)}
+            onClick={() => handlePageClick(1)}
+            title={page === 1 ? "" : "Vai alla prima pagina"}
             className={`${page === 1 ? "btn-inactive" : "btn"}`}
           >
-            <span className="hidden sm:inline">Precedente</span>
-            <span className="inline sm:hidden">Prec</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M18 6l-6 6 6 6M6 6v12"
+              />
+            </svg>
+          </button>
+
+          {/* Bottone Precedente Gruppo */}
+          <button
+            disabled={startPage === 1}
+            onClick={() => handlePageClick(startPage - 1)}
+            title={startPage === 1 ? "" : "Gruppo precedente"}
+            className={`${startPage === 1 ? "btn-inactive" : "btn"}`}
+          >
+            «
           </button>
 
           {/* Indicatori numerici delle pagine */}
@@ -108,8 +109,8 @@ export default function Home(): JSX.Element {
                   key={pageNumber}
                   onClick={() => handlePageClick(pageNumber)}
                   className={`${page === pageNumber
-                      ? "paging-number-btn"
-                      : "paging-number-btn-inactive"
+                    ? "paging-number-btn"
+                    : "paging-number-btn-inactive"
                     } transition`}
                 >
                   {pageNumber}
@@ -118,17 +119,44 @@ export default function Home(): JSX.Element {
             })}
           </div>
 
-          {/* Bottone Successivo */}
+          {/* Bottone Successivo Gruppo */}
+          <button
+            disabled={endPage === TOTAL_PAGES}
+            onClick={() => handlePageClick(endPage + 1)}
+            title={endPage === TOTAL_PAGES ? "" : "Gruppo successivo"}
+            className={`${endPage === TOTAL_PAGES ? "btn-inactive" : "btn"}`}
+          >
+            »
+          </button>
+
+          {/* Bottone Ultima */}
           <button
             disabled={page === TOTAL_PAGES}
-            onClick={() => handlePageClick(page + 1)}
+            onClick={() => handlePageClick(TOTAL_PAGES)}
+            title={page === TOTAL_PAGES ? "" : "Vai all'ultima pagina"}
             className={`${page === TOTAL_PAGES ? "btn-inactive" : "btn"}`}
           >
-            <span className="hidden sm:inline">Successivo</span>
-            <span className="inline sm:hidden">Succ</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18l6-6-6-6m12 0v12"
+              />
+            </svg>
           </button>
         </div>
 
+        {/* Intervallo di pagine */}
+        <div className="text-center mt-4 text-gray-500">
+          {ITEMS_PER_PAGE * (page - 1) + 1}-{Math.min(ITEMS_PER_PAGE * page, total)} di {total} utenti
+        </div>
       </div>
     </div>
   );
