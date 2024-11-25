@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import {User, FetchUsersResponse} from "@/interfaces/userInterfaces"
+import {User, NewUser, FetchUsersResponse} from "@/interfaces/userInterfaces"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
@@ -27,7 +27,7 @@ export const fetchUserDetails = async (id: string): Promise<User> => {
   return response.data;
 };
 
-export const addUser = async (user: User): Promise<User> => {
+export const addUser = async (user: NewUser): Promise<User> => {
   try {
     const response = await axios.post(`${API_URL}/users`, user);
     return response.data;

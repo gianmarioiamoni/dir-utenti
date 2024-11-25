@@ -1,17 +1,6 @@
 import { useState } from "react";
 import { NewUser } from "@/interfaces/userInterfaces";
 
-// interface CreateUserModalProps {
-//     isOpen: boolean;
-//     onClose: () => void;
-//     onSubmit: (userData: {
-//         nome: string;
-//         cognome: string;
-//         email: string;
-//         dataNascita: string;
-//         fotoProfilo: string;
-//     }) => void;
-// }
 interface CreateUserModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -29,17 +18,9 @@ export default function CreateUserModal({
         nome: "",
         cognome: "",
         email: "",
-        // set dataNascita as an empty Date 
         dataNascita: "",
         fotoProfilo: "",
     })
-    // const [formData, setFormData] = useState({
-    //     nome: "",
-    //     cognome: "",
-    //     email: "",
-    //     dataNascita: "",
-    //     fotoProfilo: "",
-    // });
 
     if (!isOpen) return null;
 

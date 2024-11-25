@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUsers, addUser } from "../services/userServices";
-import { FetchUsersResponse, User } from "@/interfaces/userInterfaces";
+import { FetchUsersResponse, User, NewUser } from "@/interfaces/userInterfaces";
 
 export const useUsers = (page: number, limit: number) => {
   const queryClient = useQueryClient();
@@ -13,7 +13,7 @@ export const useUsers = (page: number, limit: number) => {
   });
 
 
-  const updateUsers = async (newUser: User, newTotal: number) => {
+  const updateUsers = async (newUser: NewUser, newTotal: number) => {
     try {
       // Invia l'utente al server
       const addedUser = await addUser(newUser);

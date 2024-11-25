@@ -5,7 +5,7 @@ import { useUsers } from "../hooks/useUsers";
 
 import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
-import { User } from "@/interfaces/userInterfaces";
+import { User, NewUser } from "@/interfaces/userInterfaces";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -34,14 +34,16 @@ export default function Home(): JSX.Element {
   };
 
   // Gestione click sul bottone "Aggiungi Utente"
-  const handleAddUser = (newUser: any) => {
-    console.log("add new user:", newUser);
-
-    // Aggiorna users
+  const handleAddUser = (newUser: NewUser) => {
     if (usersData?.users) {
       updateUsers(newUser, usersData.total + 1);
     }
   };
+
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   if (isLoading) {
     return (
@@ -67,10 +69,8 @@ export default function Home(): JSX.Element {
       {/* Modal Creazione User */}
       <CreateUserModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={(userData) => {
-          handleAddUser(userData);
-        }}
+        onClose={onCloseModal}
+        onSubmit={handleAddUser}
       />
 
       <div className="container mx-auto px-4 py-8">
