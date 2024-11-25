@@ -19,6 +19,8 @@
   --name-text: var(--accent);
   --card-hover-bg: rgba(216, 216, 216, 0.5);
   --accent-hover: #fbbf24;
+  --modal-bg: var(--card-bg)
+  --modal-border: var(--card-border)
   /* Rules for footer and navbar */
   --navbar-height: 64px;
   --footer-height: 32px;
@@ -41,6 +43,11 @@
     --name-text: var(--accent);
     --card-hover-bg: rgba(0, 0, 0, 0.5);
     --accent-hover: #f59e0b;
+    --modal-bg: var(--card-bg);
+    --modal-border: var(--card-border);
+  /* Rules for footer and navbar */
+  --navbar-height: 64px;
+  --footer-height: 32px;
   }
 }
 
@@ -138,4 +145,17 @@ body {
 
 .navbar-mobile-menu-btn {
   @apply text-sm text-foreground hover:text-accent mb-2;
+}
+
+/* Create User Modal */
+.create-user-modal-div {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-inherit bg-opacity-50
+}
+
+.create-user-modal-main {
+  @apply bg-modal-bg rounded-lg border-2 border-modal-border shadow-lg p-6 w-full max-w-md
+}
+
+.input-field {
+  @apply block w-full px-4 py-2 text-background border border-modal-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
 }

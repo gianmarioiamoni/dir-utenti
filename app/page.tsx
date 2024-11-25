@@ -4,14 +4,21 @@ import { useState } from "react";
 import { useUsers } from "../hooks/useUsers";
 
 import Navbar from "@/components/NavBar";
+import CreateUserModal from "@/components/CreateUserModal";
+import { User } from "../services/userServices";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function Home(): JSX.Element {
   const [page, setPage] = useState(1);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { data: usersData, isLoading, isError, error } = useUsers(page, ITEMS_PER_PAGE);
 
-  const { users, total = 0 } = usersData || {};
+  let { total = 0 } = usersData || {};
+  const users = usersData?.users || [];
+
   const TOTAL_PAGES = Math.ceil(total / ITEMS_PER_PAGE);
 
   // Calcolo le pagine da visualizzare
@@ -24,6 +31,11 @@ export default function Home(): JSX.Element {
     if (pageNumber >= 1 && pageNumber <= TOTAL_PAGES) {
       setPage(pageNumber);
     }
+  };
+
+  // Gestione click sul bottone "Aggiungi Utente"
+  const handleAddUser = (newUser: any) => {
+    console.log("add new user:", newUser);
   };
 
   if (isLoading) {
@@ -45,7 +57,17 @@ export default function Home(): JSX.Element {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
+      <Navbar onAddUser={() => setIsModalOpen(true)} />
+
+      {/* Modal Creazione User */}
+      <CreateUserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={(userData) => {
+          handleAddUser(userData);
+        }}
+      />
+
       <div className="container mx-auto px-4 py-8">
         <h1 className="title">Elenco Utenti</h1>
 

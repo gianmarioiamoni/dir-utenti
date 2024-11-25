@@ -23,6 +23,8 @@ const config: Config = {
         "name-text": "var(--name-text)",
         "card-hover-bg": "var(--card-hover-bg)",
         "accent-hover": "var(--accent-hover)",
+        "modal-bg": "var(--modal-bg)",
+        "modal-border": "var(--modal-border)",
       },
       fontFamily: {
         sans: ["Arial", "Helvetica", "sans-serif"],

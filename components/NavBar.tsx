@@ -5,10 +5,19 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { HiUsers } from "react-icons/hi"; 
 import { AiOutlineUserAdd } from "react-icons/ai";
 
-export default function Navbar(): JSX.Element {
+interface NavbarProps {
+    onAddUser: () => void;
+}
+
+export default function Navbar({ onAddUser }: NavbarProps): JSX.Element {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = () => setMenuOpen(!isMenuOpen);
+
+    const onCLickAddUserMobile = () => {
+        setMenuOpen(false);
+        onAddUser();
+    };
 
     return (
         <nav className="navbar">
@@ -20,7 +29,7 @@ export default function Navbar(): JSX.Element {
             </div>
 
             {/* Comando Aggiungi Utente */}
-            <button className="navbar-menu-btn">
+            <button className="navbar-menu-btn" onClick={onAddUser}>
                 <AiOutlineUserAdd className="hidden sm:inline text-lg" />
                 <span className="hidden sm:inline">Aggiungi Utente</span>
             </button>
@@ -42,7 +51,7 @@ export default function Navbar(): JSX.Element {
                         {/* Menu */}
                         <button
                             className="navbar-mobile-menu-btn"
-                            onClick={() => setMenuOpen(false)}
+                            onClick={onCLickAddUserMobile}
                         >
                             Aggiungi Utente
                         </button>
