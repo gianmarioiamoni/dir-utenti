@@ -14,7 +14,7 @@ export default function Home(): JSX.Element {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: usersData, isLoading, isError, error } = useUsers(page, ITEMS_PER_PAGE);
+  const { data: usersData, isLoading, isError, error, updateUsers } = useUsers(page, ITEMS_PER_PAGE);
 
   let { total = 0 } = usersData || {};
   const users = usersData?.users || [];
@@ -36,6 +36,11 @@ export default function Home(): JSX.Element {
   // Gestione click sul bottone "Aggiungi Utente"
   const handleAddUser = (newUser: any) => {
     console.log("add new user:", newUser);
+
+    // Aggiorna users
+    if (usersData?.users) {
+      updateUsers(newUser, usersData.total + 1);
+    }
   };
 
   if (isLoading) {
