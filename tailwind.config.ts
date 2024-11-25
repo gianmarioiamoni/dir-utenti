@@ -22,6 +22,7 @@ const config: Config = {
         "initials-text": "var(--initials-text)",
         "name-text": "var(--name-text)",
         "card-hover-bg": "var(--card-hover-bg)",
+        "accent-hover": "var(--accent-hover)",
       },
       fontFamily: {
         sans: ["Arial", "Helvetica", "sans-serif"],

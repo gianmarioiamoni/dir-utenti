@@ -18,6 +18,7 @@
   --initials-text: #6b7280; /* Initials text for light theme */
   --name-text: var(--accent);
   --card-hover-bg: rgba(216, 216, 216, 0.5);
+  --accent-hover: #fbbf24;
   /* Rules for footer and navbar */
   --navbar-height: 64px;
   --footer-height: 32px;
@@ -39,6 +40,7 @@
     --initials-text: #d1d5db; /* Initials text for dark theme */
     --name-text: var(--accent);
     --card-hover-bg: rgba(0, 0, 0, 0.5);
+    --accent-hover: #f59e0b;
   }
 }
 
@@ -48,23 +50,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#root,
-#__next {
-  height: 100%;
+.title {
+  @apply  text-2xl font-bold text-center mb-16;
 }
 
-.flex-grow {
-  flex-grow: 1; /* Area espandibile */
-}
-
-.min-h-screen {
-  min-height: 100vh; /* Assicura che l'altezza totale sia almeno quella della viewport */
-}
-
-/* Tailwind custom class for buttons */
 @layer components {
+  /* Tailwind custom class for buttons */
   .btn {
-    @apply bg-primary text-white px-4 py-2 rounded-lg border transition;
+    @apply bg-primary text-white px-4 py-2 rounded-full text-sm font-semibold border transition;
   }
 
   .btn:hover {
@@ -72,6 +65,77 @@ body {
   }
 
   .btn-inactive {
-    @apply bg-gray-200 text-gray-500 px-4 py-2 rounded-lg border cursor-not-allowed
+    @apply bg-gray-200 text-gray-500 px-4 py-2 rounded-full text-sm font-semibold border cursor-not-allowed
   }
+}
+
+/* Loading spin */
+/* Modale di caricamento */
+.loader {
+  @apply animate-spin rounded-full border-4 border-t-4 border-foreground border-t-primary w-16 h-16 mb-4;
+}
+
+.main-container {
+  @apply container mt-8 grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center;
+}
+
+.card-div {
+  @apply relative w-full max-w-xs p-4 bg-card-bg border border-card-border rounded-lg shadow transition-transform hover:scale-105 hover:shadow-lg;
+}
+
+.card-initials-div {
+  @apply bg-initials-bg w-14 h-14 flex items-center justify-center rounded-full text-initials-text font-bold text-lg mb-2;
+}
+
+.card-email-p {
+  @apply text-xs text-gray-500 max-w-full overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+.card-hover-overlay {
+  @apply absolute inset-0 bg-card-hover-bg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity;
+}
+
+.paging-div {
+  @apply mt-12 flex flex-col sm:flex-row sm:justify-center items-center gap-4;
+}
+
+.paging-number-btn {
+  @apply w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold bg-primary text-white
+}
+
+.paging-number-btn-inactive {
+  @apply w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold bg-gray-200 text-gray-600 hover:bg-blue-100
+}
+
+/* Navigation Bar */
+.navbar {
+  @apply bg-primary text-foreground py-4 px-6 flex justify-between items-center;
+}
+
+.navbar-app-title {
+  @apply flex items-center text-accent gap-2 text-lg font-bold;
+}
+
+.navbar-menu-btn {
+  @apply flex items-center gap-2 text-sm font-medium hover:text-accent transition;
+}
+
+.navbar-toast-menu-btn {
+  @apply sm:hidden text-accent transition;
+}
+
+.navbar-mobile-menu {
+  @apply fixed inset-0 bg-black/50 z-10;
+}
+
+.navbar-mobile-menu-panel {
+  @apply absolute top-0 right-0 w-3/4 sm:w-1/3 h-full bg-primary p-6 flex flex-col;
+}
+
+.navbar-mobile-menu-title {
+  @apply text-accent text-xl font-bold mb-4;
+}
+
+.navbar-mobile-menu-btn {
+  @apply text-sm text-foreground hover:text-accent mb-2;
 }

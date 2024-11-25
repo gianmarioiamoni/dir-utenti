@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiUsers } from "react-icons/hi"; 
-import { AiOutlineUserAdd } from "react-icons/ai"; 
+import { AiOutlineUserAdd } from "react-icons/ai";
 
 export default function Navbar(): JSX.Element {
     const [isMenuOpen, setMenuOpen] = useState(false);
@@ -11,45 +11,44 @@ export default function Navbar(): JSX.Element {
     const toggleMenu = () => setMenuOpen(!isMenuOpen);
 
     return (
-        <nav className="bg-primary text-foreground py-4 px-6 flex justify-between items-center">
+        <nav className="navbar">
 
             {/* Titolo App */}
-            <div className="flex items-center text-accent gap-2 text-lg font-bold">
+            <div className="navbar-app-title">
                 <span>DirUtenti</span>
-                {/* <AiOutlineMenu className="" /> */}
                 <HiUsers className="hidden sm:block text-xl" />
             </div>
 
             {/* Comando Aggiungi Utente */}
-            <button className="flex items-center gap-2 text-sm font-medium hover:text-accent transition">
-                <AiOutlineUserAdd className="text-lg" />
+            <button className="navbar-menu-btn">
+                <AiOutlineUserAdd className="hidden sm:inline text-lg" />
                 <span className="hidden sm:inline">Aggiungi Utente</span>
             </button>
 
             {/* Toast menu for small screens */}
             <button
                 onClick={toggleMenu}
-                className="sm:hidden text-accent hover:text-accent-dark transition"
+                className="navbar-toast-menu-btn hover:text-accent-hover"
             >
                 <AiOutlineMenu size={24} />
             </button>
 
             {/* Mobile menu */}
             {isMenuOpen && (
-                <div className="fixed inset-0 bg-black/50 z-10">
-                    <div className="absolute top-0 right-0 w-3/4 sm:w-1/3 h-full bg-primary p-6 flex flex-col">
-                        {/* App name */}
-                        <div className="text-accent text-xl font-bold mb-4">DirUtenti</div>
+                <div className="navbar-mobile-menu">
+                    <div className="navbar-mobile-menu-panel">
+                        {/* Menu Title */}
+                        <div className="navbar-mobile-menu-title">Menu</div>
                         {/* Menu */}
                         <button
-                            className="text-sm text-foreground hover:text-accent mb-2"
+                            className="navbar-mobile-menu-btn"
                             onClick={() => setMenuOpen(false)}
                         >
                             Aggiungi Utente
                         </button>
                         {/* Close menu */}
                         <button
-                            className="mt-auto text-sm text-foreground hover:text-accent"
+                            className="mt-auto navbar-mobile-menu-btn"
                             onClick={() => setMenuOpen(false)}
                         >
                             Chiudi
