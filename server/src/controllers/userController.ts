@@ -56,6 +56,14 @@ export const createUser = async (
 ) => {
   try {
     const { nome, cognome, email, dataNascita, fotoProfilo } = req.body;
+
+    // Verifica se l'email esiste già
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        res.status(409).json({ message: "Email già in uso" });
+        return;
+    }
+
     const newUser = new User({
       nome,
       cognome,
@@ -67,9 +75,7 @@ export const createUser = async (
     await newUser.save();
 
     res.status(201).json(newUser);
-    return;
   } catch (err) {
     next(err);
-    return;
   }
 };

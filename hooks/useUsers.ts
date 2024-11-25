@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchUsers } from "../services/userServices";
+import { fetchUsers, addUser } from "../services/userServices";
 import { FetchUsersResponse, User } from "@/interfaces/userInterfaces";
 
 export const useUsers = (page: number, limit: number) => {
@@ -12,22 +12,32 @@ export const useUsers = (page: number, limit: number) => {
     staleTime: 30000, // Ottimizzazione: evita di rifare richieste entro 30s
   });
 
-  // Funzione per aggiornare manualmente i dati nella cache
-  const updateUsers = (newUser: User, newTotal: number) => {
-    // Aggiorniamo manualmente la cache di React Query
-    const n_users = data?.users.length || 0;
-    // TODO: AGGIORNARE _id CON VALORE restituito da MongoDB
-    newUser._id = `${n_users + 1}`;
-    const newUsers =
-      n_users < limit
-        ? [...(data?.users ?? []), newUser]
-        : [...(data?.users ?? [])];
 
-    queryClient.setQueryData<FetchUsersResponse>(["users", page, limit], {
-      users: newUsers,
-      total: newTotal,
-    });
+  const updateUsers = async (newUser: User, newTotal: number) => {
+    try {
+      // Invia l'utente al server
+      const addedUser = await addUser(newUser);
+
+      // Aggiorna manualmente la cache con i dati restituiti (incluso l'_id generato da MongoDB)
+      const n_users = data?.users.length || 0;
+      const updatedUsers =
+        n_users < limit
+          ? [...(data?.users ?? []), addedUser] // Aggiungi il nuovo utente alla lista
+          : [...(data?.users ?? [])]; // Non aggiungere se la pagina è piena
+
+      // 3. Aggiorna la cache di React Query
+      queryClient.setQueryData<FetchUsersResponse>(["users", page, limit], {
+        users: updatedUsers,
+        total: newTotal,
+      });
+    } catch (error) {
+      console.error("Errore durante l'aggiunta dell'utente:", error);
+      throw new Error(
+        "Non è stato possibile aggiungere l'utente. Riprova più tardi."
+      );
+    }
   };
+
 
   return {
     data,
