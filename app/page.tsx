@@ -14,6 +14,15 @@ export default function Home(): JSX.Element {
   const { users, total = 0 } = usersData || {};
   const TOTAL_PAGES = Math.ceil(total / ITEMS_PER_PAGE);
 
+  // Calcolo le pagine da visualizzare
+  const PAGE_LIMIT = 5; // Mostra al massimo 5 bottoni per pagina
+
+  // Trova il gruppo di 5 pagine da visualizzare
+  const startPage = Math.floor((page - 1) / PAGE_LIMIT) * PAGE_LIMIT + 1;
+  const endPage = Math.min(startPage + PAGE_LIMIT - 1, TOTAL_PAGES);
+
+
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
@@ -31,10 +40,13 @@ export default function Home(): JSX.Element {
     );
   }
 
-  const handlePageClick = (newPage: number) => {
-    if (newPage >= 1 && newPage <= TOTAL_PAGES) {
-      setPage(newPage);
-    }
+  // const handlePageClick = (newPage: number) => {
+  //   if (newPage >= 1 && newPage <= TOTAL_PAGES) {
+  //     setPage(newPage);
+  //   }
+  // };
+  const handlePageClick = (pageNumber: number) => {
+    setPage(pageNumber); // Imposta la pagina corrente
   };
 
   return (
@@ -81,34 +93,36 @@ export default function Home(): JSX.Element {
           <button
             disabled={page === 1}
             onClick={() => handlePageClick(page - 1)}
-            className={` ${page === 1 ? "btn-inactive" : "btn"} `}
+            className={`${page === 1 ? "btn-inactive" : "btn"}`}
           >
-          
             <span className="hidden sm:inline">Precedente</span>
             <span className="inline sm:hidden">Prec</span>
           </button>
 
           {/* Indicatori numerici delle pagine */}
           <div className="flex flex-wrap justify-center gap-2">
-            {Array.from({ length: TOTAL_PAGES }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => handlePageClick(index + 1)}
-                className={` ${page === index + 1
-                  ? "paging-number-btn"
-                  : "paging-number-btn-inactive"
-                  } transition`}
-              >
-                {index + 1}
-              </button>
-            ))}
+            {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
+              const pageNumber = startPage + index;
+              return (
+                <button
+                  key={pageNumber}
+                  onClick={() => handlePageClick(pageNumber)}
+                  className={`${page === pageNumber
+                      ? "paging-number-btn"
+                      : "paging-number-btn-inactive"
+                    } transition`}
+                >
+                  {pageNumber}
+                </button>
+              );
+            })}
           </div>
 
           {/* Bottone Successivo */}
           <button
             disabled={page === TOTAL_PAGES}
             onClick={() => handlePageClick(page + 1)}
-            className={`${page === TOTAL_PAGES ? "btn-inactive" : "btn"} `}
+            className={`${page === TOTAL_PAGES ? "btn-inactive" : "btn"}`}
           >
             <span className="hidden sm:inline">Successivo</span>
             <span className="inline sm:hidden">Succ</span>

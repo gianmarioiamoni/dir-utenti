@@ -8,7 +8,7 @@ dotenv.config();
 const MONGO_URI =
   process.env.MONGODB_URI || "mongodb://localhost:27017/dir-utenti";
 
-const N_USERS = 25;
+const N_USERS = 77;
 
 const seedDatabase = async () => {
   try {
@@ -24,7 +24,7 @@ const seedDatabase = async () => {
     // Crea N_USERS utenti casuali
     const users: IUser[] = [];
     for (let i = 0; i < N_USERS; i++) {
-      const user = await User.create({
+      const user = new User({
         nome: faker.person.firstName(),
         cognome: faker.person.lastName(),
         email: faker.internet.email(),
@@ -34,9 +34,9 @@ const seedDatabase = async () => {
       users.push(user);
     }
 
-    // Inserisce gli utenti nel database
+    // Inserisci gli utenti nel database
     await User.insertMany(users);
-    console.log("25 utenti creati con successo!");
+    console.log(`${N_USERS} utenti creati con successo!`);
 
     // Chiude la connessione
     mongoose.connection.close();
