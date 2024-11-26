@@ -23,7 +23,7 @@ export const fetchUsers = async (
 };
 
 export const fetchUserDetails = async (id: string): Promise<User> => {
-  const response = await axios.get(`${API_URL}/utenti/${id}`);
+  const response = await axios.get(`${API_URL}/users/${id}`);
   return response.data;
 };
 

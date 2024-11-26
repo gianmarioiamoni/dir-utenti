@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 
 interface ImageUploadProps {
     onImageUpload: (fileUrl: string) => void;
 }
 
-export default function ImageUpload({ onImageUpload }: ImageUploadProps): JSX.Element {
+const ImageUpload: FC<ImageUploadProps> = ({ onImageUpload }) => {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState<boolean>(false);
 
@@ -56,3 +56,5 @@ export default function ImageUpload({ onImageUpload }: ImageUploadProps): JSX.El
         </div>
     );
 }
+
+export default ImageUpload;

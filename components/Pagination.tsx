@@ -2,8 +2,6 @@ import { FC } from "react";
 
 import { usePagination } from "@/hooks/usePagination";
 
-
-
 interface PaginationProps {
     itemsPerPage: number;
     totalItems: number

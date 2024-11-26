@@ -89,7 +89,7 @@ body {
 }
 
 .card-div {
-  @apply relative w-full max-w-xs p-4 bg-card-bg border border-card-border rounded-lg shadow transition-transform hover:scale-105 hover:shadow-lg;
+  @apply relative w-full max-w-xs p-4 bg-card-bg border border-card-border rounded-lg shadow transition-transform cursor-pointer hover:scale-105 hover:shadow-lg;
 }
 
 .card-initials-div {
@@ -179,3 +179,25 @@ body {
     max-height: 100%;
     object-fit: cover; /* Adatta l'immagine al contenitore */
 }
+
+/* User Details */
+.user-details-bc {
+  @apply flex text-sm text-gray-600 mb-4
+}
+
+.user-details-div {
+  @apply flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6
+}
+
+.user-details-photo {
+  @apply w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300 shadow-lg
+}
+
+.user-details-h1 {
+  @apply text-3xl font-bold text-gray-800
+}
+
+.user-details-p {
+  @apply text-lg text-gray-700
+}
+

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiUsers } from "react-icons/hi"; 
 import { AiOutlineUserAdd } from "react-icons/ai";
@@ -9,7 +9,7 @@ interface NavbarProps {
     onAddUser: () => void;
 }
 
-export default function Navbar({ onAddUser }: NavbarProps): JSX.Element {
+const Navbar: FC<NavbarProps> = ({ onAddUser }) => {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = () => setMenuOpen(!isMenuOpen);
@@ -68,3 +68,5 @@ export default function Navbar({ onAddUser }: NavbarProps): JSX.Element {
         </nav>
     );
 }
+
+export default Navbar;

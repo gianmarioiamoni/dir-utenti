@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 
 import { useUsers } from "@/hooks/useUsers";
 import { usePagination } from "@/hooks/usePagination";
 import { useErrorHandling } from "@/hooks/useErrorHandling";
+
+import Link from "next/link";
 
 import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
@@ -13,7 +15,7 @@ import Pagination from "@/components/Pagination";
 
 const ITEMS_PER_PAGE = 10;
 
-export default function Home(): JSX.Element {
+const Home: FC = () => {
   const [totalItems, setTotalItems] = useState<number>(0);
 
   const { currentPage } = usePagination(totalItems, ITEMS_PER_PAGE);
@@ -28,6 +30,7 @@ export default function Home(): JSX.Element {
       setTotalItems(usersData.total);
     }
   }, [usersData]);
+
 
   if (isLoading) {
     return (
@@ -56,7 +59,9 @@ export default function Home(): JSX.Element {
         {/* Lista Utenti */}
         <main className="main-container">
           {usersData?.users?.map((user) => (
+            
             <div key={user._id} className="card-div group">
+              <Link href={`/user/${user._id}`} key={user._id}>
               <div className="flex flex-col items-center text-center space-y-2">
                 <div className="card-initials-div">{user.nome[0]}{user.cognome[0]}</div>
                 <h3 className="font-semibold text-name-text text-sm">{user.nome} {user.cognome}</h3>
@@ -64,8 +69,10 @@ export default function Home(): JSX.Element {
               </div>
               <div className="card-hover-overlay">
                 <p className="text-foreground font-semibold text-sm">Click to show details</p>
-              </div>
+                </div>
+              </Link>
             </div>
+            
           ))}
         </main>
 
@@ -80,3 +87,5 @@ export default function Home(): JSX.Element {
   );
 }
 
+
+export default Home;
