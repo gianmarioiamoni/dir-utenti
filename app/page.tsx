@@ -1,50 +1,35 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUsers } from "../hooks/useUsers";
 
-import { toast } from "react-toastify";
+import { useUsers } from "@/hooks/useUsers";
+import { usePagination } from "@/hooks/usePagination";
+import { useErrorHandling } from "@/hooks/useErrorHandling";
 
 import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
-import { User, NewUser } from "@/interfaces/userInterfaces";
+
+import { NewUser } from "@/interfaces/userInterfaces";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function Home(): JSX.Element {
-  const [page, setPage] = useState(1);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [totalItems, setTotalItems] = useState<number>(0);
 
-  const { data: usersData, isLoading, isError, error, updateUsers } = useUsers(page, ITEMS_PER_PAGE);
+  const { currentPage, totalPages, startPage, endPage, handlePageClick } = usePagination(totalItems, ITEMS_PER_PAGE);
 
-  let { total = 0 } = usersData || {};
-  const users = usersData?.users || [];
+  const { data: usersData, isLoading, isError, error, updateUsers } = useUsers(currentPage, ITEMS_PER_PAGE);
+  
+  useErrorHandling(isError, error);
 
-  const TOTAL_PAGES = Math.ceil(total / ITEMS_PER_PAGE);
-
-  // Calcolo le pagine da visualizzare
-  const PAGE_LIMIT = 5; // Mostra al massimo 5 bottoni per gruppo
-  const startPage = Math.floor((page - 1) / PAGE_LIMIT) * PAGE_LIMIT + 1;
-  const endPage = Math.min(startPage + PAGE_LIMIT - 1, TOTAL_PAGES);
-
-  // Gestione errori con Toast
+  // Aggiorna il totale degli utenti quando i dati vengono recuperati
   useEffect(() => {
-    if (isError) {
-      toast.error(
-        error instanceof Error ? error.message : "Errore generico nel caricamento dati"
-      );
+    if (usersData) {
+      setTotalItems(usersData.total);
     }
-  }, [isError, error]);
+  }, [usersData]);
 
-  // Gestione click su pagina
-  const handlePageClick = (pageNumber: number) => {
-    if (pageNumber >= 1 && pageNumber <= TOTAL_PAGES) {
-      setPage(pageNumber);
-    }
-  };
-
-  // Gestione click sul bottone "Aggiungi Utente"
   const handleAddUser = async (newUser: NewUser): Promise<void> => {
     try {
       if (usersData?.users) {
@@ -52,14 +37,13 @@ export default function Home(): JSX.Element {
       }
     } catch (error) {
       console.error("*** handleAddUser: Errore durante l'aggiunta dell'utente:", error);
-      throw(error);
+      throw error;
     }
   };
 
   const onCloseModal = () => {
     setIsModalOpen(false);
   };
-
 
   if (isLoading) {
     return (
@@ -89,7 +73,7 @@ export default function Home(): JSX.Element {
 
         {/* Lista Utenti */}
         <main className="main-container">
-          {users?.map((user) => (
+          {usersData?.users?.map((user) => (
             <div key={user._id} className="card-div group">
               <div className="flex flex-col items-center text-center space-y-2">
                 <div className="card-initials-div">{user.nome[0]}{user.cognome[0]}</div>
@@ -105,12 +89,12 @@ export default function Home(): JSX.Element {
 
         {/* Paginazione */}
         <div className="paging-div">
-          {/* Bottone Prima */}
+          {/* Bottone Prima Pagina */}
           <button
-            disabled={page === 1}
+            disabled={currentPage === 1}
             onClick={() => handlePageClick(1)}
-            title={page === 1 ? "" : "Vai alla prima pagina"}
-            className={`${page === 1 ? "btn-inactive" : "btn"}`}
+            title={currentPage === 1 ? "" : "Vai alla prima pagina"}
+            className={`${currentPage === 1 ? "btn-inactive" : "btn"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +112,7 @@ export default function Home(): JSX.Element {
             </svg>
           </button>
 
-          {/* Bottone Precedente Gruppo */}
+          {/* Bottone Gruppo Precedente */}
           <button
             disabled={startPage === 1}
             onClick={() => handlePageClick(startPage - 1)}
@@ -146,7 +130,7 @@ export default function Home(): JSX.Element {
                 <button
                   key={pageNumber}
                   onClick={() => handlePageClick(pageNumber)}
-                  className={`${page === pageNumber
+                  className={`${currentPage === pageNumber
                     ? "paging-number-btn"
                     : "paging-number-btn-inactive"
                     } transition`}
@@ -157,22 +141,22 @@ export default function Home(): JSX.Element {
             })}
           </div>
 
-          {/* Bottone Successivo Gruppo */}
+          {/* Bottone Gruppo Successivo */}
           <button
-            disabled={endPage === TOTAL_PAGES}
+            disabled={endPage === totalPages}
             onClick={() => handlePageClick(endPage + 1)}
-            title={endPage === TOTAL_PAGES ? "" : "Gruppo successivo"}
-            className={`${endPage === TOTAL_PAGES ? "btn-inactive" : "btn"}`}
+            title={endPage === totalPages ? "" : "Gruppo successivo"}
+            className={`${endPage === totalPages ? "btn-inactive" : "btn"}`}
           >
             »
           </button>
 
-          {/* Bottone Ultima */}
+          {/* Bottone Ultima Pagina */}
           <button
-            disabled={page === TOTAL_PAGES}
-            onClick={() => handlePageClick(TOTAL_PAGES)}
-            title={page === TOTAL_PAGES ? "" : "Vai all'ultima pagina"}
-            className={`${page === TOTAL_PAGES ? "btn-inactive" : "btn"}`}
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageClick(totalPages)}
+            title={currentPage === totalPages ? "" : "Vai all'ultima pagina"}
+            className={`${currentPage === totalPages ? "btn-inactive" : "btn"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +177,7 @@ export default function Home(): JSX.Element {
 
         {/* Intervallo di pagine */}
         <div className="text-center mt-4 text-gray-500">
-          {ITEMS_PER_PAGE * (page - 1) + 1}-{Math.min(ITEMS_PER_PAGE * page, total)} di {total} utenti
+          {ITEMS_PER_PAGE * (currentPage - 1) + 1}-{Math.min(ITEMS_PER_PAGE * currentPage, usersData?.total || 0)} di {usersData?.total} utenti
         </div>
       </div>
     </div>
