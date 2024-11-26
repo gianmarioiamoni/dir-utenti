@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { validateUser } from "../validators/userValidator";
+
 import {
   getUsers,
   getUserById,
@@ -94,6 +96,6 @@ router.get("/:id", getUserById);
  *       400:
  *         description: Dati non validi.
  */
-router.post("/", createUser); 
+router.post("/", validateUser, createUser); 
 
 export default router;

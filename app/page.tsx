@@ -45,7 +45,7 @@ export default function Home(): JSX.Element {
   };
 
   // Gestione click sul bottone "Aggiungi Utente"
-  const handleAddUser = async (newUser: NewUser) => {
+  const handleAddUser = async (newUser: NewUser): Promise<void> => {
     try {
       if (usersData?.users) {
         await updateUsers(newUser, usersData.total + 1);

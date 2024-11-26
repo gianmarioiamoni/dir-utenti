@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
+
 import User from "../models/User";
 
 // Get all users (with pagination)
@@ -54,32 +56,43 @@ export const createUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const { nome, cognome, email, dataNascita, fotoProfilo } = req.body;
+    try {
+      // Validation
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          res.status(400).json({ errors: errors.array() });
+          return; 
+      }
 
-    // Verifica se l'email esiste già
-    const existingUser = await User.findOne({ email });
-          console.log("*** createUser - existingUser 1", existingUser);
+      const { nome, cognome, email, dataNascita, fotoProfilo } = req.body;
+
+      // Verifica se l'email esiste già
+      const existingUser = await User.findOne({ email });
+      console.log("*** createUser - existingUser 1", existingUser);
       if (existingUser) {
-          console.log("*** createUser - existingUser 2", existingUser);
-        res.status(409).json({ message: "Email già in uso. Utilizzare un altro indirizzo email." });
+        console.log("*** createUser - existingUser 2", existingUser);
+        res
+          .status(409)
+          .json({
+            message: "Email già in uso. Utilizzare un altro indirizzo email.",
+          });
         return;
       }
-      
+
       console.log("*** createUser - USER DOES NOT EXIST");
 
-    const newUser = new User({
-      nome,
-      cognome,
-      email,
-      dataNascita,
-      fotoProfilo,
-    });
+      const newUser = new User({
+        nome,
+        cognome,
+        email,
+        dataNascita,
+        fotoProfilo,
+      });
 
-    await newUser.save();
+      await newUser.save();
 
-    res.status(201).json(newUser);
-  } catch (err) {
+      res.status(201).json(newUser);
+    } catch (err) {
     next(err);
   }
 };
