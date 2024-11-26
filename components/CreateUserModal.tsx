@@ -60,10 +60,43 @@ export default function CreateUserModal({
         fotoProfilo: "",
     })
 
+    const [previewImage, setPreviewImage] = useState<string | null>(null); // Anteprima dell'immagine
+    const [isUploading, setIsUploading] = useState<boolean>(false);
+
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({}); // errori di validazione
 
     if (!isOpen) return null;
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Mostra un'anteprima immediata
+        const previewUrl = URL.createObjectURL(file);
+        setPreviewImage(previewUrl);
+
+        // Upload su Cloudinary
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "your_upload_preset"); // Modifica con il tuo upload preset
+        setIsUploading(true);
+
+        try {
+            const response = await fetch("http://localhost:5000/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+            const data = await response.json();
+            console.log("File URL:", data.fileUrl);
+
+            setFormData((prev) => ({ ...prev, fotoProfilo: data.fileUrl })); // URL dell'immagine salvata
+        } catch (error) {
+            console.error("Errore durante l'upload:", error);
+        } finally {
+            setIsUploading(false);
+        }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -81,10 +114,9 @@ export default function CreateUserModal({
         }
 
         try {
-            console.log("handleChange - formData", formData);
-            console.log("handleChanege - limit", );
             await handleAddUser(formData);
             setFormData({ nome: "", cognome: "", email: "", dataNascita: "", fotoProfilo: "" });
+            setPreviewImage(null);
             onClose();
             setErrorMessage(null)
         } catch (error: any) {
@@ -167,20 +199,27 @@ export default function CreateUserModal({
                         />
                         {formErrors.dataNascita && <p className="text-red-500 text-sm">{formErrors.dataNascita}</p>}
                     </div>
+
+                    {/* Foto Profilo */}
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="fotoProfilo">
-                            Foto Profilo (URL)
+                            Foto Profilo
                         </label>
                         <input
-                            type="url"
+                            type="file"
                             id="fotoProfilo"
-                            name="fotoProfilo"
-                            value={formData.fotoProfilo}
-                            onChange={handleChange}
-                            required
+                            accept="image/*"
+                            onChange={handleFileChange}
                             className="input-field"
                         />
+                        {previewImage && (
+                            <div className="w-36 h-36 overflow-hidden rounded-full border-2 border-gray-300 flex items-center justify-center bg-gray-100">
+                                <img src={previewImage} alt="Anteprima foto profilo" className="w-full h-full object-cover" />
+                            </div>
+                        )}
+                        {isUploading && <p className="text-gray-500">Caricamento in corso...</p>}
                     </div>
+                    
                     <div className="flex justify-end space-x-4">
                         <button
                             type="button"

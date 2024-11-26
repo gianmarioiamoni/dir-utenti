@@ -10,6 +10,8 @@ dotenv.config();
 import userRoutes from "./routes/userRoutes";
 import errorHandler from "./middlewares/errorHandler";
 
+import uploadRoute from "./routes/uploadRoutes";
+
 const app: Express = express();
 
 // Cors: allow localhost:3000 
@@ -27,6 +29,7 @@ const MONGODB_URI =
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/upload", uploadRoute);
 
 // Swagger
 setupSwagger(app);
