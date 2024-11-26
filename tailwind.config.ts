@@ -25,6 +25,7 @@ const config: Config = {
         "accent-hover": "var(--accent-hover)",
         "modal-bg": "var(--modal-bg)",
         "modal-border": "var(--modal-border)",
+        "bg-error": "var(--bg-error)",
       },
       fontFamily: {
         sans: ["Arial", "Helvetica", "sans-serif"],

@@ -19,8 +19,9 @@
   --name-text: var(--accent);
   --card-hover-bg: rgba(216, 216, 216, 0.5);
   --accent-hover: #fbbf24;
-  --modal-bg: var(--card-bg)
-  --modal-border: var(--card-border)
+  --modal-bg: var(--card-bg);
+  --modal-border: var(--card-border);
+  --bg-error: var(--error); 
   /* Rules for footer and navbar */
   --navbar-height: 64px;
   --footer-height: 32px;
@@ -45,6 +46,7 @@
     --accent-hover: #f59e0b;
     --modal-bg: var(--card-bg);
     --modal-border: var(--card-border);
+    --bg-error: var(--error); 
   /* Rules for footer and navbar */
   --navbar-height: 64px;
   --footer-height: 32px;

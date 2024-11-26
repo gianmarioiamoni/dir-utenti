@@ -45,9 +45,14 @@ export default function Home(): JSX.Element {
   };
 
   // Gestione click sul bottone "Aggiungi Utente"
-  const handleAddUser = (newUser: NewUser) => {
-    if (usersData?.users) {
-      updateUsers(newUser, usersData.total + 1);
+  const handleAddUser = async (newUser: NewUser) => {
+    try {
+      if (usersData?.users) {
+        await updateUsers(newUser, usersData.total + 1);
+      }
+    } catch (error) {
+      console.error("*** handleAddUser: Errore durante l'aggiunta dell'utente:", error);
+      throw(error);
     }
   };
 
@@ -65,13 +70,6 @@ export default function Home(): JSX.Element {
     );
   }
 
-  // if (isError) {
-  //   return (
-  //     <div className="text-center text-red-500">
-  //       Errore: {error instanceof Error ? error.message : "Errore di caricamento dati"}
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -81,7 +79,8 @@ export default function Home(): JSX.Element {
       <CreateUserModal
         isOpen={isModalOpen}
         onClose={onCloseModal}
-        onSubmit={handleAddUser}
+        page={page}
+        limit={ITEMS_PER_PAGE}
       />
 
       <div className="container mx-auto px-4 py-8">

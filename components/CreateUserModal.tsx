@@ -1,17 +1,59 @@
 import { useState } from "react";
+
 import { NewUser } from "@/interfaces/userInterfaces";
+import { useUsers } from "../hooks/useUsers";
+
+function validateInputs(formData: NewUser): { [key: string]: string } {
+    const errors: { [key: string]: string } = {};
+    const nameRegex = /^[a-zA-Z\s]+$/; // Solo lettere e spazi
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // RegEx per email valide
+    const currentYear = new Date().getFullYear();
+    const userBirthYear = new Date(formData.dataNascita).getFullYear();
+
+    // Nome
+    if (!formData.nome.trim()) {
+        errors.nome = "Il nome è obbligatorio.";
+    } else if (!nameRegex.test(formData.nome.trim())) {
+        errors.nome = "Il nome può contenere solo lettere e spazi.";
+    }
+
+    // Cognome
+    if (!formData.cognome.trim()) {
+        errors.cognome = "Il cognome è obbligatorio.";
+    } else if (!nameRegex.test(formData.cognome.trim())) {
+        errors.cognome = "Il cognome può contenere solo lettere e spazi.";
+    }
+
+    // Email
+    if (!formData.email.trim()) {
+        errors.email = "L'email è obbligatoria.";
+    } else if (!emailRegex.test(formData.email.trim())) {
+        errors.email = "Inserisci un'email valida.";
+    }
+
+    // Data di nascita
+    if (!formData.dataNascita.trim()) {
+        errors.dataNascita = "La data di nascita è obbligatoria.";
+    } else if (currentYear - userBirthYear < 14) {
+        errors.dataNascita = "Devi avere almeno 14 anni.";
+    }
+
+    return errors;
+}
 
 interface CreateUserModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (userData: NewUser) => void;
+    page: number;
+    limit: number;
 }
 
 
 export default function CreateUserModal({
     isOpen,
     onClose,
-    onSubmit,
+    page,
+    limit
 }: CreateUserModalProps): JSX.Element | null {
     // initialize formData state as an empty NewUser object
     const [formData, setFormData] = useState<NewUser>({
@@ -22,6 +64,11 @@ export default function CreateUserModal({
         fotoProfilo: "",
     })
 
+    const { data: usersData, isLoading, isError, error, updateUsers } = useUsers(page, limit);
+
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({}); // errori di validazione
+
     if (!isOpen) return null;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,10 +76,30 @@ export default function CreateUserModal({
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(formData);
+
+        // Validazione
+        const errors = validateInputs(formData);
+        if (Object.keys(errors).length > 0) {
+            setFormErrors(errors);
+            return; // Interrompi se ci sono errori
+        }
+
+        try {
+            
+            await updateUsers(formData, limit + 1)
+            setFormData({ nome: "", cognome: "", email: "", dataNascita: "", fotoProfilo: "" });
+            onClose();
+            setErrorMessage(null)
+        } catch (error: any) {
+            setErrorMessage(error.message);
+        }
+    };
+
+    const handleCancel = () => {
         setFormData({ nome: "", cognome: "", email: "", dataNascita: "", fotoProfilo: "" });
+        setErrorMessage(null);
         onClose();
     };
 
@@ -40,6 +107,9 @@ export default function CreateUserModal({
         <div className="create-user-modal-div">
             <div className="create-user-modal-main">
                 <h2 className="text-xl font-semibold mb-4">Crea Nuovo Utente</h2>
+                
+                {errorMessage && <p className="text-white bg-bg-error px-4 py-2 rounded mb-4">{errorMessage}</p>}
+                
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="nome">
@@ -54,6 +124,7 @@ export default function CreateUserModal({
                             required
                             className="input-field"
                         />
+                        {formErrors.nome && <p className="text-red-500 text-sm">{formErrors.nome}</p>}
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="cognome">
@@ -68,6 +139,7 @@ export default function CreateUserModal({
                             required
                             className="input-field"
                         />
+                        {formErrors.cognome && <p className="text-red-500 text-sm">{formErrors.cognome}</p>}
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="email">
@@ -82,6 +154,7 @@ export default function CreateUserModal({
                             required
                             className="input-field"
                         />
+                        {formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="dataNascita">
@@ -96,6 +169,7 @@ export default function CreateUserModal({
                             required
                             className="input-field"
                         />
+                        {formErrors.dataNascita && <p className="text-red-500 text-sm">{formErrors.dataNascita}</p>}
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="fotoProfilo">
@@ -114,7 +188,7 @@ export default function CreateUserModal({
                     <div className="flex justify-end space-x-4">
                         <button
                             type="button"
-                            onClick={onClose}
+                            onClick={handleCancel}
                             className="btn-secondary"
                         >
                             Annulla
