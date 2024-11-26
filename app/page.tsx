@@ -9,19 +9,16 @@ import { useErrorHandling } from "@/hooks/useErrorHandling";
 import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
 
-import { NewUser } from "@/interfaces/userInterfaces";
-
 import Pagination from "@/components/Pagination";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function Home(): JSX.Element {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [totalItems, setTotalItems] = useState<number>(0);
 
-  const { currentPage, totalPages, startPage, endPage, handlePageClick } = usePagination(totalItems, ITEMS_PER_PAGE);
+  const { currentPage } = usePagination(totalItems, ITEMS_PER_PAGE);
 
-  const { data: usersData, isLoading, isError, error, updateUsers } = useUsers(currentPage, ITEMS_PER_PAGE);
+  const { data: usersData, isLoading, isError, error, isModalOpen, setIsModalOpen, onCloseModal, handleAddUser } = useUsers(currentPage, ITEMS_PER_PAGE);
   
   useErrorHandling(isError, error);
 
@@ -31,21 +28,6 @@ export default function Home(): JSX.Element {
       setTotalItems(usersData.total);
     }
   }, [usersData]);
-
-  const handleAddUser = async (newUser: NewUser): Promise<void> => {
-    try {
-      if (usersData?.users) {
-        await updateUsers(newUser, usersData.total + 1);
-      }
-    } catch (error) {
-      console.error("*** handleAddUser: Errore durante l'aggiunta dell'utente:", error);
-      throw error;
-    }
-  };
-
-  const onCloseModal = () => {
-    setIsModalOpen(false);
-  };
 
   if (isLoading) {
     return (
@@ -65,8 +47,6 @@ export default function Home(): JSX.Element {
       <CreateUserModal
         isOpen={isModalOpen}
         onClose={onCloseModal}
-        // updateUsers={updateUsers} 
-        // total={total}
         handleAddUser={handleAddUser}
       />
 
@@ -91,17 +71,9 @@ export default function Home(): JSX.Element {
 
         {/* Paginazione */}
         <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          startPage={startPage}
-          endPage={endPage}
-          handlePageClick={handlePageClick}
+          itemsPerPage={ITEMS_PER_PAGE}
+          totalItems={totalItems}
         />
-
-        {/* Intervallo di pagine */}
-        <div className="text-center mt-4 text-gray-500">
-          {ITEMS_PER_PAGE * (currentPage - 1) + 1}-{Math.min(ITEMS_PER_PAGE * currentPage, usersData?.total || 0)} di {usersData?.total} utenti
-        </div>
 
       </div>
     </div>

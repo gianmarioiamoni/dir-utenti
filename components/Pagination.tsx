@@ -1,22 +1,22 @@
 import { FC } from "react";
 
+import { usePagination } from "@/hooks/usePagination";
+
+
+
 interface PaginationProps {
-    currentPage: number;
-    totalPages: number;
-    startPage: number;
-    endPage: number;
-    handlePageClick: (page: number) => void;
+    itemsPerPage: number;
+    totalItems: number
 }
 
 const Pagination: FC<PaginationProps> = ({
-    currentPage,
-    totalPages,
-    startPage,
-    endPage,
-    handlePageClick
+    itemsPerPage,
+    totalItems
 }) => {
-
+    const { currentPage, totalPages, startPage, endPage, handlePageClick } = usePagination(totalItems, itemsPerPage);
+    
     return (
+        <>
         <div className="paging-div">
             {/* Bottone Prima Pagina */}
             <button
@@ -102,7 +102,12 @@ const Pagination: FC<PaginationProps> = ({
                     />
                 </svg>
             </button>
-        </div>
+            </div>
+            {/* Intervallo di pagine */}
+            <div className="text-center mt-4 text-gray-500">
+                {itemsPerPage * (currentPage - 1) + 1}-{Math.min(itemsPerPage * currentPage, totalItems || 0)} di {totalItems} utenti
+            </div>
+        </>
     );
 };
 
