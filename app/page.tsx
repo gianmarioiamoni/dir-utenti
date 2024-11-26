@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUsers } from "../hooks/useUsers";
+
+import { toast } from "react-toastify";
 
 import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
@@ -25,6 +27,15 @@ export default function Home(): JSX.Element {
   const PAGE_LIMIT = 5; // Mostra al massimo 5 bottoni per gruppo
   const startPage = Math.floor((page - 1) / PAGE_LIMIT) * PAGE_LIMIT + 1;
   const endPage = Math.min(startPage + PAGE_LIMIT - 1, TOTAL_PAGES);
+
+  // Gestione errori con Toast
+  useEffect(() => {
+    if (isError) {
+      toast.error(
+        error instanceof Error ? error.message : "Errore generico nel caricamento dati"
+      );
+    }
+  }, [isError, error]);
 
   // Gestione click su pagina
   const handlePageClick = (pageNumber: number) => {
@@ -54,13 +65,13 @@ export default function Home(): JSX.Element {
     );
   }
 
-  if (isError) {
-    return (
-      <div className="text-center text-red-500">
-        Errore: {error instanceof Error ? error.message : "Errore di caricamento dati"}
-      </div>
-    );
-  }
+  // if (isError) {
+  //   return (
+  //     <div className="text-center text-red-500">
+  //       Errore: {error instanceof Error ? error.message : "Errore di caricamento dati"}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex flex-col min-h-screen">
