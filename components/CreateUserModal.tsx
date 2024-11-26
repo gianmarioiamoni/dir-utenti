@@ -1,6 +1,8 @@
 import { useCreateUserForm } from "@/hooks/useCreateUserForm";
 import { useImageUpload } from "@/hooks/useImageUpload";
 
+import ImageUpload from "@/components/ImageUpload";
+
 import { NewUser } from "@/interfaces/userInterfaces";
 
 interface CreateUserModalProps {
@@ -34,8 +36,13 @@ export default function CreateUserModal({
         <div className="create-user-modal-div">
             <div className="create-user-modal-main">
                 <h2 className="text-xl font-semibold mb-4">Crea Nuovo Utente</h2>
+
+                {/* Area errori */}
                 {errorMessage && <p className="text-white bg-bg-error px-4 py-2 rounded mb-4">{errorMessage}</p>}
+
+                {/* Input Form */}
                 <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Nome */}
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="nome">
                             Nome
@@ -51,6 +58,7 @@ export default function CreateUserModal({
                         />
                         {formErrors.nome && <p className="text-red-500 text-sm">{formErrors.nome}</p>}
                     </div>
+                    {/* Cognome */}
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="cognome">
                             Cognome
@@ -66,6 +74,7 @@ export default function CreateUserModal({
                         />
                         {formErrors.cognome && <p className="text-red-500 text-sm">{formErrors.cognome}</p>}
                     </div>
+                    {/* Email */}
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="email">
                             Email
@@ -81,6 +90,7 @@ export default function CreateUserModal({
                         />
                         {formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
                     </div>
+                    {/* Data di Nascita */}
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="dataNascita">
                             Data di Nascita
@@ -96,24 +106,14 @@ export default function CreateUserModal({
                         />
                         {formErrors.dataNascita && <p className="text-red-500 text-sm">{formErrors.dataNascita}</p>}
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-1" htmlFor="fotoProfilo">
-                            Foto Profilo
-                        </label>
-                        <input
-                            type="file"
-                            id="fotoProfilo"
-                            accept="image/*"
-                            onChange={(e) => handleFileChange(e, setFormData)}
-                            className="input-field"
-                        />
-                        {previewImage && (
-                            <div className="w-36 h-36 overflow-hidden rounded-full border-2 border-gray-300 flex items-center justify-center bg-gray-100">
-                                <img src={previewImage} alt="Anteprima foto profilo" className="w-full h-full object-cover" />
-                            </div>
-                        )}
-                        {isUploading && <p className="text-gray-500 text-sm">Caricamento in corso...</p>}
-                    </div>
+                    {/* Immagine profilo */}
+                    <ImageUpload
+                        onImageUpload={(fileUrl) =>
+                            setFormData((prev) => ({ ...prev, fotoProfilo: fileUrl }))
+                        }
+                    />
+
+                    {/* Bottoni */}
                     <div className="flex justify-end gap-4 mt-6">
                         <button type="button" onClick={handleCancel} className="btn-cancel">
                             Annulla
