@@ -79,8 +79,9 @@ export default function Home(): JSX.Element {
       <CreateUserModal
         isOpen={isModalOpen}
         onClose={onCloseModal}
-        page={page}
-        limit={ITEMS_PER_PAGE}
+        // updateUsers={updateUsers} 
+        // total={total}
+        handleAddUser={handleAddUser}
       />
 
       <div className="container mx-auto px-4 py-8">

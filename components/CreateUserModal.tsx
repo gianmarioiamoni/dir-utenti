@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { NewUser } from "@/interfaces/userInterfaces";
-import { useUsers } from "../hooks/useUsers";
 
 function validateInputs(formData: NewUser): { [key: string]: string } {
     const errors: { [key: string]: string } = {};
@@ -44,18 +43,15 @@ function validateInputs(formData: NewUser): { [key: string]: string } {
 interface CreateUserModalProps {
     isOpen: boolean;
     onClose: () => void;
-    page: number;
-    limit: number;
+    handleAddUser: (newUser: NewUser) => void;
 }
 
 
 export default function CreateUserModal({
     isOpen,
     onClose,
-    page,
-    limit
+    handleAddUser
 }: CreateUserModalProps): JSX.Element | null {
-    // initialize formData state as an empty NewUser object
     const [formData, setFormData] = useState<NewUser>({
         nome: "",
         cognome: "",
@@ -63,8 +59,6 @@ export default function CreateUserModal({
         dataNascita: "",
         fotoProfilo: "",
     })
-
-    const { data: usersData, isLoading, isError, error, updateUsers } = useUsers(page, limit);
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({}); // errori di validazione
@@ -83,11 +77,13 @@ export default function CreateUserModal({
         const errors = validateInputs(formData);
         if (Object.keys(errors).length > 0) {
             setFormErrors(errors);
-            return; // Interrompi se ci sono errori
+            return; // Interrompi se ci sono errori di validazione
         }
 
         try {
-            await updateUsers(formData, limit + 1)
+            console.log("handleChange - formData", formData);
+            console.log("handleChanege - limit", );
+            await handleAddUser(formData);
             setFormData({ nome: "", cognome: "", email: "", dataNascita: "", fotoProfilo: "" });
             onClose();
             setErrorMessage(null)
