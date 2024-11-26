@@ -87,12 +87,12 @@ export default function CreateUserModal({
         }
 
         try {
-            
             await updateUsers(formData, limit + 1)
             setFormData({ nome: "", cognome: "", email: "", dataNascita: "", fotoProfilo: "" });
             onClose();
             setErrorMessage(null)
         } catch (error: any) {
+            console.log("handleSubmit: error", error);
             setErrorMessage(error.message);
         }
     };

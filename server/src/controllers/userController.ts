@@ -59,10 +59,14 @@ export const createUser = async (
 
     // Verifica se l'email esiste già
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-        res.status(409).json({ message: "Email già in uso" });
+          console.log("*** createUser - existingUser 1", existingUser);
+      if (existingUser) {
+          console.log("*** createUser - existingUser 2", existingUser);
+        res.status(409).json({ message: "Email già in uso. Utilizzare un altro indirizzo email." });
         return;
-    }
+      }
+      
+      console.log("*** createUser - USER DOES NOT EXIST");
 
     const newUser = new User({
       nome,

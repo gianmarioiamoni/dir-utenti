@@ -30,9 +30,17 @@ export const fetchUserDetails = async (id: string): Promise<User> => {
 export const addUser = async (user: NewUser): Promise<User> => {
   try {
     const response = await axios.post(`${API_URL}/users`, user);
+    console.log("*** addUser - response.status", response.status);
+
+    // check if response contains status 409
+    if (response.status === 409) {
+      throw new Error("Email già in uso.");
+    }
     return response.data;
-  } catch (error) {
-    console.error("Error adding user:", error);
-    throw error;
+  } catch (error: any) {
+    if (error.response.status === 409) {
+      throw new Error("Email già in uso. Utilizzare un altro indirizzo email.");
+    }
+    throw new Error("Errore durante l'aggiunta dell'utente.");    
   }
 };

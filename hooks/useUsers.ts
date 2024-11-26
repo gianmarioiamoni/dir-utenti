@@ -30,11 +30,10 @@ export const useUsers = (page: number, limit: number) => {
         users: updatedUsers,
         total: newTotal,
       });
-    } catch (error) {
-      console.error("Errore durante l'aggiunta dell'utente:", error);
-      throw new Error(
-        "Non è stato possibile aggiungere l'utente. Riprova più tardi."
-      );
+    } catch (error: any) {
+      // console.error("Errore durante l'aggiunta dell'utente:", error);
+      // rilancia l'errore in modo tale che venga intercettato dal modal
+      throw new Error(error.message);
     }
   };
 
