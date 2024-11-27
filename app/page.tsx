@@ -3,7 +3,6 @@
 import { FC, useState, useEffect } from "react";
 
 import { useUsers } from "@/hooks/useUsers";
-import { usePagination } from "@/hooks/usePagination";
 import { useErrorHandling } from "@/hooks/useErrorHandling";
 
 import Link from "next/link";
@@ -17,8 +16,7 @@ const ITEMS_PER_PAGE = 10;
 
 const Home: FC = () => {
   const [totalItems, setTotalItems] = useState<number>(0);
-
-  const { currentPage } = usePagination(totalItems, ITEMS_PER_PAGE);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: usersData, isLoading, isError, error, isModalOpen, setIsModalOpen, onCloseModal, handleAddUser } = useUsers(currentPage, ITEMS_PER_PAGE);
   
@@ -80,6 +78,8 @@ const Home: FC = () => {
         <Pagination
           itemsPerPage={ITEMS_PER_PAGE}
           totalItems={totalItems}
+          currentPage={currentPage}
+          handlePageClick={(page) => setCurrentPage(page)}
         />
 
       </div>

@@ -9,11 +9,12 @@ export const useUsers = (page: number, limit: number) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, isError, error } = useQuery<FetchUsersResponse>({
-    queryKey: ["users", page, limit],
-    queryFn: () => fetchUsers(page, limit),
-    staleTime: 30000,
-  });
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<FetchUsersResponse>({
+      queryKey: ["users", page, limit],
+      queryFn: () => fetchUsers(page, limit),
+      staleTime: 30000,
+    });
 
   const updateUsers = async (newUser: NewUser, newTotal: number) => {
     try {
@@ -57,6 +58,7 @@ export const useUsers = (page: number, limit: number) => {
     isLoading,
     isError,
     error,
+    refetch,
     updateUsers,
     handleAddUser,
     isModalOpen,

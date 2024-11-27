@@ -1,20 +1,25 @@
-import { FC } from "react";
-
-import { usePagination } from "@/hooks/usePagination";
+import {FC} from "react";
 
 interface PaginationProps {
     itemsPerPage: number;
-    totalItems: number
+    totalItems: number;
+    currentPage: number;
+    handlePageClick: (page: number) => void;
 }
 
 const Pagination: FC<PaginationProps> = ({
     itemsPerPage,
-    totalItems
+    totalItems,
+    currentPage,
+    handlePageClick
 }) => {
-    const { currentPage, totalPages, startPage, endPage, handlePageClick } = usePagination(totalItems, itemsPerPage);
-    
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const pageLimit = 5;
+
+    const startPage = Math.floor((currentPage - 1) / pageLimit) * pageLimit + 1;
+    const endPage = Math.min(startPage + pageLimit - 1, totalPages);
     return (
-        <>
         <div className="paging-div">
             {/* Bottone Prima Pagina */}
             <button
@@ -23,19 +28,8 @@ const Pagination: FC<PaginationProps> = ({
                 title={currentPage === 1 ? "" : "Vai alla prima pagina"}
                 className={`${currentPage === 1 ? "btn-inactive" : "btn"}`}
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M18 6l-6 6 6 6M6 6v12"
-                    />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M18 6l-6 6 6 6M6 6v12" />
                 </svg>
             </button>
 
@@ -57,10 +51,7 @@ const Pagination: FC<PaginationProps> = ({
                         <button
                             key={pageNumber}
                             onClick={() => handlePageClick(pageNumber)}
-                            className={`${currentPage === pageNumber
-                                ? "paging-number-btn"
-                                : "paging-number-btn-inactive"
-                                } transition`}
+                            className={`${currentPage === pageNumber ? "paging-number-btn" : "paging-number-btn-inactive"} transition`}
                         >
                             {pageNumber}
                         </button>
@@ -85,28 +76,18 @@ const Pagination: FC<PaginationProps> = ({
                 title={currentPage === totalPages ? "" : "Vai all'ultima pagina"}
                 className={`${currentPage === totalPages ? "btn-inactive" : "btn"}`}
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18l6-6-6-6m12 0v12"
-                    />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18l6-6-6-6m12 0v12" />
                 </svg>
             </button>
-            </div>
+
             {/* Intervallo di pagine */}
             <div className="text-center mt-4 text-gray-500">
                 {itemsPerPage * (currentPage - 1) + 1}-{Math.min(itemsPerPage * currentPage, totalItems || 0)} di {totalItems} utenti
             </div>
-        </>
+        </div>
     );
 };
 
 export default Pagination;
+
