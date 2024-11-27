@@ -2,12 +2,12 @@
 
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Per navigare programmaticamente
+import { useRouter } from "next/navigation"; 
 
 import { useUsers } from "@/hooks/useUsers";
 import { useErrorHandling } from "@/hooks/useErrorHandling";
 import Loader from "@/components/Loader";
-import CreateUserModal from "@/components/CreateUserModal"; // Importa il componente modal
+import CreateUserModal from "@/components/CreateUserModal"; 
 
 const Home: FC = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ const Home: FC = () => {
   // Handler per aggiungere un utente e reindirizzare
   const handleAddUserAndNavigate = async (newUser: any) => {
     try {
-      await handleAddUser(newUser); // Aggiunge il nuovo utente
+      await handleAddUser(newUser); 
       router.push("/users"); // Reindirizza alla lista utenti
     } catch (error) {
       console.error("Errore durante l'aggiunta dell'utente:", error);
@@ -57,18 +57,29 @@ const Home: FC = () => {
         {isLoading ? (
           <Loader isLoading={isLoading} />
         ) : (
-          <div className="mt-8 text-center">
-            <p className="text-gray-600">Numero totale di utenti: {totalUsers}</p>
-
-            <div className="flex justify-center gap-4 mt-6">
-              <button onClick={() => setIsModalOpen(true)} className="btn-secondary">
-                Aggiungi Nuovo Utente
-              </button>
-              <Link href="/users" className="btn-primary">
-                Visualizza Lista Utenti
-              </Link>
+            <div className="mt-8 text-center">
+              
+              {totalUsers > 0 ? (
+                <>
+                  <p className="text-gray-600">Numero totale di utenti: {totalUsers}</p>
+                  <div className="flex justify-center gap-4 mt-6">
+                    <button onClick={() => setIsModalOpen(true)} className="btn-secondary">
+                      Aggiungi Nuovo Utente
+                    </button>
+                    <Link href="/users" className="btn-primary">
+                      Visualizza Lista Utenti
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="text-gray-600">Nessun utente trovato.</p>
+                  <button onClick={() => setIsModalOpen(true)} className="btn-primary mt-2">
+                    Aggiungi Nuovo Utente
+                  </button>
+                </>
+              )}
             </div>
-          </div>
         )}
       </main>
 
