@@ -43,7 +43,7 @@ const UserDetail = async ({ params }: UserDetailProps) => {
                         <span className="mx-2">/</span>
                     </li>
                     <li>
-                        <Link href="/user" className="hover:text-blue-500">Users</Link>
+                        <Link href="/users" className="hover:text-blue-500">Users</Link>
                         <span className="mx-2">/</span>
                     </li>
                     <li className="text-gray-500">{user.nome} {user.cognome}</li>
