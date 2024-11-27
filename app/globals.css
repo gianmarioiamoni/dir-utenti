@@ -24,6 +24,7 @@
   --bg-error: var(--error); 
   --navbar-btn: var(--initials-bg);
   --paginator-btn-bg: var(--initials-bg);
+  --btn-secondary-fg: rgb(176, 180, 182); 
 
   /* Rules for footer and navbar */
   --navbar-height: 64px;
@@ -34,7 +35,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #e7e0e0;
     --primary: #3b82f6;
     --secondary: #94a3b8;
     --accent: #fbbf24;
@@ -52,6 +53,7 @@
     --bg-error: var(--error); 
     --navbar-btn: var(--initials-text);
     --paginator-btn-bg: var(--initials-bg);
+    --btn-secondary-fg: #1f2937;
   /* Rules for footer and navbar */
   --navbar-height: 64px;
   --footer-height: 32px;
@@ -70,8 +72,12 @@ body {
 
 @layer components {
   /* Tailwind custom class for buttons */
-  .btn {
+  .btn, .btn-primary {
     @apply bg-primary text-white px-4 py-2 rounded-full text-sm font-semibold border transition;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-btn-secondary-fg px-4 py-2 rounded-full text-sm font-semibold border transition;
   }
 
   .btn:hover {

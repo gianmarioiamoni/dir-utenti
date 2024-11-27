@@ -9,6 +9,7 @@ import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
 import Pagination from "@/components/Pagination";
 import UserCard from "@/components/UserCard";
+import Loader from "@/components/Loader";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -28,14 +29,7 @@ const UsersList: FC = () => {
   useErrorHandling(isError, error); // Gestione degli errori
 
   // Loader durante il caricamento dei dati
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <div className="loader" />
-        <p className="text-center text-gray-500">Caricamento Utenti...</p>
-      </div>
-    );
-  }
+  <Loader isLoading={isLoading} /> 
 
   return (
     <div className="flex flex-col min-h-screen">

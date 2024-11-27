@@ -28,6 +28,7 @@ const config: Config = {
         "bg-error": "var(--bg-error)",
         "navbar-btn": "var(--navbar-btn)",
         "paginator-btn-bg": "var(--paginator-btn-bg)",
+        "btn-secondary-fg": "var(--btn-secondary-fg)",
       },
       fontFamily: {
         sans: ["Arial", "Helvetica", "sans-serif"],
