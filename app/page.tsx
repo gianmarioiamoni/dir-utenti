@@ -9,8 +9,8 @@ import Link from "next/link";
 
 import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
-
 import Pagination from "@/components/Pagination";
+import UserCard from "@/components/UserCard";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -28,7 +28,6 @@ const Home: FC = () => {
       setTotalItems(usersData.total);
     }
   }, [usersData]);
-
 
   if (isLoading) {
     return (
@@ -58,18 +57,7 @@ const Home: FC = () => {
         <main className="main-container">
           {usersData?.users?.map((user) => (
             // User Card
-            <div key={user._id} className="card-div group">
-              <Link href={`/user/${user._id}`} key={user._id}>
-              <div className="flex flex-col items-center text-center space-y-2">
-                <div className="card-initials-div">{user.nome[0]}{user.cognome[0]}</div>
-                <h3 className="font-semibold text-name-text text-sm">{user.nome} {user.cognome}</h3>
-                <p className="card-email-p" title={user.email}>{user.email}</p>
-              </div>
-              <div className="card-hover-overlay">
-                <p className="text-foreground font-semibold text-sm">Click to show details</p>
-                </div>
-              </Link>
-            </div>
+           <UserCard key={user._id} user={user} /> 
             
           ))}
         </main>
