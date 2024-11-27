@@ -26,6 +26,8 @@ const config: Config = {
         "modal-bg": "var(--modal-bg)",
         "modal-border": "var(--modal-border)",
         "bg-error": "var(--bg-error)",
+        "navbar-btn": "var(--navbar-btn)",
+        "paginator-btn-bg": "var(--paginator-btn-bg)",
       },
       fontFamily: {
         sans: ["Arial", "Helvetica", "sans-serif"],

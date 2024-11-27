@@ -1,9 +1,8 @@
 "use client";
 
 import React, { FC, useState } from "react";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineUserAdd } from "react-icons/ai";
 import { HiUsers } from "react-icons/hi"; 
-import { AiOutlineUserAdd } from "react-icons/ai";
 
 interface NavbarProps {
     onAddUser: () => void;
@@ -46,6 +45,13 @@ const Navbar: FC<NavbarProps> = ({ onAddUser }) => {
             {isMenuOpen && (
                 <div className="navbar-mobile-menu">
                     <div className="navbar-mobile-menu-panel">
+                        {/* Close Icon */}
+                        <button
+                            className="navbar-mobile-menu-close-icon"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            <AiOutlineClose />
+                        </button>
                         {/* Menu Title */}
                         <div className="navbar-mobile-menu-title">Menu</div>
                         {/* Menu */}
@@ -56,12 +62,7 @@ const Navbar: FC<NavbarProps> = ({ onAddUser }) => {
                             Aggiungi Utente
                         </button>
                         {/* Close menu */}
-                        <button
-                            className="mt-auto navbar-mobile-menu-btn"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            Chiudi
-                        </button>
+                        
                     </div>
                 </div>
             )}

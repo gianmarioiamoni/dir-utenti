@@ -5,23 +5,26 @@
 
 :root {
   /* Light theme color variables */
-  --background: #ffffff;
+  --background: #bbbaba;
   --foreground: #171717;
   --primary: #1d4ed8; 
   --secondary: #64748b; 
   --accent: #f59e0b; 
   --error: #dc2626; 
   --hover: #2563eb;
-  --card-bg: #d8d8d8; /* user card background for light theme */
-  --card-border: #b0b0b0; /* border color for light theme */
-  --initials-bg: #c3c6cb; /* Initials background for light theme */
-  --initials-text: #6b7280; /* Initials text for light theme */
-  --name-text: var(--accent);
+  --card-bg: rgb(176, 180, 182);
+  --card-border: #6b7280; 
+  --initials-bg: #c3c6cb; 
+  --initials-text: #6b7280; 
+  --name-text: #fbbf24;
   --card-hover-bg: rgba(216, 216, 216, 0.5);
   --accent-hover: #fbbf24;
   --modal-bg: var(--card-bg);
   --modal-border: var(--card-border);
   --bg-error: var(--error); 
+  --navbar-btn: var(--initials-bg);
+  --paginator-btn-bg: var(--initials-bg);
+
   /* Rules for footer and navbar */
   --navbar-height: 64px;
   --footer-height: 32px;
@@ -37,16 +40,18 @@
     --accent: #fbbf24;
     --error: #ef4444;
     --hover: #1e40af;
-    --card-bg: #1f2937; /* user card background for dark theme */
-    --card-border: #4b5563; /* border color for dark theme */
-    --initials-bg: #374151; /* Initials background for dark theme */
-    --initials-text: #d1d5db; /* Initials text for dark theme */
+    --card-bg: #1f2937; 
+    --card-border: #4b5563; 
+    --initials-bg: #374151; 
+    --initials-text: #d1d5db; 
     --name-text: var(--accent);
     --card-hover-bg: rgba(0, 0, 0, 0.5);
     --accent-hover: #f59e0b;
     --modal-bg: var(--card-bg);
     --modal-border: var(--card-border);
     --bg-error: var(--error); 
+    --navbar-btn: var(--initials-text);
+    --paginator-btn-bg: var(--initials-bg);
   /* Rules for footer and navbar */
   --navbar-height: 64px;
   --footer-height: 32px;
@@ -78,12 +83,12 @@ body {
   }
 }
 
-/* Loading spin */
 /* Modale di caricamento */
 .loader {
   @apply animate-spin rounded-full border-4 border-t-4 border-foreground border-t-primary w-16 h-16 mb-4;
 }
 
+/* Lista Utenti */
 .main-container {
   @apply container mt-8 grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center;
 }
@@ -125,8 +130,12 @@ body {
   @apply flex items-center text-accent gap-2 text-lg font-bold;
 }
 
+.navbar-mobile-menu-close-icon {
+  @apply absolute top-2 right-2 text-2xl text-accent hover:text-accent-hover
+}
+
 .navbar-menu-btn {
-  @apply flex items-center gap-2 text-sm font-medium hover:text-accent transition;
+  @apply flex items-center gap-2 text-ellipsis text-navbar-btn text-sm font-medium hover:text-accent transition;
 }
 
 .navbar-toast-menu-btn {
@@ -146,7 +155,7 @@ body {
 }
 
 .navbar-mobile-menu-btn {
-  @apply text-sm text-foreground hover:text-accent mb-2;
+  @apply text-sm text-navbar-btn hover:text-accent mb-2;
 }
 
 /* Create User Modal */

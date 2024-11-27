@@ -57,7 +57,7 @@ const Home: FC = () => {
         {/* Lista Utenti */}
         <main className="main-container">
           {usersData?.users?.map((user) => (
-            
+            // User Card
             <div key={user._id} className="card-div group">
               <Link href={`/user/${user._id}`} key={user._id}>
               <div className="flex flex-col items-center text-center space-y-2">
