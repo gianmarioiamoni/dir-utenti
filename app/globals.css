@@ -25,6 +25,7 @@
   --navbar-btn: var(--initials-bg);
   --paginator-btn-bg: var(--initials-bg);
   --btn-secondary-fg: rgb(176, 180, 182); 
+  --bg-input-field: var(--secondary); 
 
   /* Rules for footer and navbar */
   --navbar-height: 64px;
@@ -54,6 +55,7 @@
     --navbar-btn: var(--initials-text);
     --paginator-btn-bg: var(--initials-bg);
     --btn-secondary-fg: #1f2937;
+    --bg-input-field: var(--secondary); 
   /* Rules for footer and navbar */
   --navbar-height: 64px;
   --footer-height: 32px;
@@ -174,7 +176,11 @@ body {
 }
 
 .input-field {
-  @apply block w-full px-4 py-2 text-background border border-modal-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+  @apply block w-full px-4 py-2 text-background bg-bg-input-field border border-modal-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+}
+
+.input-file-field {
+  @apply block w-full px-4 py-2 text-background bg-bg-input-field border border-modal-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
 }
 
 .preview-container {

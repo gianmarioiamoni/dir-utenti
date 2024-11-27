@@ -17,7 +17,7 @@ const CreateUserModal: FC<CreateUserModalProps> = ({
     onClose,
     handleAddUser
 }) => {
-    // Form logic from custome hook
+    // Form logic from custom hook
     const {
         formData,
         formErrors,

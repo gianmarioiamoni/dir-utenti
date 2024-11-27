@@ -29,6 +29,7 @@ const config: Config = {
         "navbar-btn": "var(--navbar-btn)",
         "paginator-btn-bg": "var(--paginator-btn-bg)",
         "btn-secondary-fg": "var(--btn-secondary-fg)",
+        "bg-input-field": "var(--bg-input-field)",
       },
       fontFamily: {
         sans: ["Arial", "Helvetica", "sans-serif"],

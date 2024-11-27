@@ -45,14 +45,14 @@ const ImageUpload: FC<ImageUploadProps> = ({ onImageUpload }) => {
                 id="fotoProfilo"
                 accept="image/*"
                 onChange={handleFileChange}
-                className="input-field"
+                className="input-file-field"
             />
             {previewImage && (
                 <div className="w-36 h-36 overflow-hidden rounded-full border-2 border-gray-300 flex items-center justify-center bg-gray-100">
                     <img src={previewImage} alt="Anteprima foto profilo" className="w-full h-full object-cover" />
                 </div>
             )}
-            {isUploading && <p className="text-gray-500 text-sm">Caricamento in corso...</p>}
+            {isUploading && <p className="text-foreground text-sm">Caricamento in corso...</p>}
         </div>
     );
 }

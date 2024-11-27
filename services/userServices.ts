@@ -15,15 +15,18 @@ export const fetchUsers = async (
   });
   return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
     throw error;
   }
   
 };
 
 export const fetchUserDetails = async (id: string): Promise<User> => {
-  const response = await axios.get(`${API_URL}/users/${id}`);
-  return response.data;
+  try {
+    const response = await axios.get(`${API_URL}/users/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const addUser = async (user: NewUser): Promise<User> => {
