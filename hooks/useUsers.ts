@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { useMessage } from "@/hooks/useMessage";
+
 import { fetchUsers, addUser } from "../services/userServices";
 import { FetchUsersResponse, NewUser } from "@/interfaces/userInterfaces";
 
 export const useUsers = (page: number, limit: number) => {
   const queryClient = useQueryClient();
+
+  const { showSuccess } = useMessage();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,6 +43,7 @@ export const useUsers = (page: number, limit: number) => {
     try {
       if (data?.users) {
         await updateUsers(newUser, data.total + 1);
+        showSuccess("Utente creato con successo!");
       }
     } catch (error) {
       console.error(

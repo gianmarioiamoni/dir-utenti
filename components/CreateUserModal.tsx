@@ -1,7 +1,6 @@
 import { FC } from "react";
 
 import { useCreateUserForm } from "@/hooks/useCreateUserForm";
-import { useImageUpload } from "@/hooks/useImageUpload";
 
 import ImageUpload from "@/components/ImageUpload";
 
@@ -13,11 +12,6 @@ interface CreateUserModalProps {
     handleAddUser: (newUser: NewUser) => void;
 }
 
-// export default function CreateUserModal({
-//     isOpen,
-//     onClose,
-//     handleAddUser,
-// }: CreateUserModalProps): JSX.Element | null {
 const CreateUserModal: FC<CreateUserModalProps> = ({
     isOpen,
     onClose,
@@ -34,8 +28,6 @@ const CreateUserModal: FC<CreateUserModalProps> = ({
         setFormData,
     } = useCreateUserForm(handleAddUser, onClose);
 
-    // Image upload logic from custom hook
-    const { previewImage, isUploading, handleFileChange } = useImageUpload();
 
     if (!isOpen) return null;
 

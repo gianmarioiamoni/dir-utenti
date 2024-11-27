@@ -5,8 +5,6 @@ import { FC, useState, useEffect } from "react";
 import { useUsers } from "@/hooks/useUsers";
 import { useErrorHandling } from "@/hooks/useErrorHandling";
 
-import Link from "next/link";
-
 import Navbar from "@/components/NavBar";
 import CreateUserModal from "@/components/CreateUserModal";
 import Pagination from "@/components/Pagination";
