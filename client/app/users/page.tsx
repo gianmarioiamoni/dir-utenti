@@ -28,9 +28,6 @@ const UsersList: FC = () => {
 
   useErrorHandling(isError, error); // Gestione degli errori
 
-  // Loader durante il caricamento dei dati
-  <Loader isLoading={isLoading} /> 
-
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar onAddUser={() => setIsModalOpen(true)} />
@@ -45,20 +42,30 @@ const UsersList: FC = () => {
       <div className="container mx-auto px-4 py-8">
         <h1 className="title">Elenco Utenti</h1>
 
-        {/* Lista Utenti */}
-        <main className="main-container">
-          {usersData?.users?.map((user) => (
-            <UserCard key={user._id} user={user} />
-          ))}
-        </main>
+        {/* Mostra il loader durante il caricamento */}
+        {isLoading ? (
+          <div className="flex justify-center items-center h-32">
+            <Loader isLoading={isLoading}/>
+          </div>
+        ) : (
+          <>
 
-        {/* Paginazione */}
-        <Pagination
-          itemsPerPage={ITEMS_PER_PAGE}
-          totalItems={usersData?.total || 0} // Usa i dati dalla query
-          currentPage={page}
-          handlePageClick={(newPage) => setPage(newPage)}
-        />
+            {/* Lista Utenti */}
+            <main className="main-container">
+              {usersData?.users?.map((user) => (
+                <UserCard key={user._id} user={user} />
+              ))}
+            </main>
+
+            {/* Paginazione */}
+            <Pagination
+              itemsPerPage={ITEMS_PER_PAGE}
+              totalItems={usersData?.total || 0} // Usa i dati dalla query
+              currentPage={page}
+              handlePageClick={(newPage) => setPage(newPage)}
+            />
+          </>
+        )}
       </div>
     </div>
   );

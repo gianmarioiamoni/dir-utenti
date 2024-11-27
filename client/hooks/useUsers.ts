@@ -15,7 +15,7 @@ export const useUsers = (page: number, limit: number) => {
 
   const { data, isLoading, isError, error, refetch } =
     useQuery<FetchUsersResponse>({
-      queryKey: ["users", page, limit],
+      queryKey: ["usersData", page, limit],
       queryFn: () => fetchUsers(page, limit),
       staleTime: 30000,
     });
@@ -30,7 +30,7 @@ export const useUsers = (page: number, limit: number) => {
           ? [...(data?.users ?? []), addedUser]
           : [...(data?.users ?? [])];
 
-      queryClient.setQueryData<FetchUsersResponse>(["users", page, limit], {
+      queryClient.setQueryData<FetchUsersResponse>(["usersData", page, limit], {
         users: updatedUsers,
         total: newTotal,
       });
@@ -43,6 +43,7 @@ export const useUsers = (page: number, limit: number) => {
     try {
       if (data?.users) {
         await updateUsers(newUser, data.total + 1);
+
         showSuccess("Utente creato con successo!");
       }
     } catch (error) {
