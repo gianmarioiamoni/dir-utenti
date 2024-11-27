@@ -11,7 +11,8 @@ export const usePagination = (totalItems: number, itemsPerPage: number) => {
 
   const handlePageClick = (page: number) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+        setCurrentPage(page);
+        console.log("currentPage: ", currentPage);
     }
   };
 

@@ -68,9 +68,7 @@ export const createUser = async (
 
       // Verifica se l'email esiste già
       const existingUser = await User.findOne({ email });
-      console.log("*** createUser - existingUser 1", existingUser);
       if (existingUser) {
-        console.log("*** createUser - existingUser 2", existingUser);
         res
           .status(409)
           .json({
@@ -79,7 +77,6 @@ export const createUser = async (
         return;
       }
 
-      console.log("*** createUser - USER DOES NOT EXIST");
 
       const newUser = new User({
         nome,

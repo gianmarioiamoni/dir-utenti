@@ -13,7 +13,6 @@ export const fetchUsers = async (
     const response = await axios.get(`${API_URL}/users`, {
     params: { page, limit, fields: "nome,cognome,email" },
   });
-  console.log("fetchUsers - response.data", response.data);
   return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -30,7 +29,6 @@ export const fetchUserDetails = async (id: string): Promise<User> => {
 export const addUser = async (user: NewUser): Promise<User> => {
   try {
     const response = await axios.post(`${API_URL}/users`, user);
-    console.log("*** addUser - response.status", response.status);
 
     // check if response contains status 409
     if (response.status === 409) {
