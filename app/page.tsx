@@ -1,82 +1,52 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
-
+import { FC, useEffect, useState } from "react";
+import Link from "next/link";
 import { useUsers } from "@/hooks/useUsers";
 import { useErrorHandling } from "@/hooks/useErrorHandling";
 
-import Navbar from "@/components/NavBar";
-import CreateUserModal from "@/components/CreateUserModal";
-import Pagination from "@/components/Pagination";
-import UserCard from "@/components/UserCard";
-
-const ITEMS_PER_PAGE = 10;
-
 const Home: FC = () => {
-  const [page, setPage] = useState(1);
+  const { data, isLoading, isError, error, isModalOpen, setIsModalOpen, onCloseModal, handleAddUser } = useUsers(1, 10);
   const [totalUsers, setTotalUsers] = useState(0);
-
-  const {
-    data: usersData,
-    isLoading,
-    isError,
-    error,
-    isModalOpen,
-    setIsModalOpen,
-    onCloseModal,
-    handleAddUser,
-  } = useUsers(page, ITEMS_PER_PAGE);
 
   useErrorHandling(isError, error);
 
   useEffect(() => {
-    if (usersData) {
-      setTotalUsers(usersData.total);
+    if (data?.total) {
+      setTotalUsers(data.total);
     }
-  }, [usersData]);
-
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <div className="loader" />
-        <p className="text-center text-gray-500">Caricamento Utenti...</p>
-      </div>
-    );
-  }
+  }, [data]);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar onAddUser={() => setIsModalOpen(true)} />
+      <header className="py-6 bg-gray-800 text-white text-center">
+        <h1 className="text-3xl font-bold">Benvenuto nella Directory Utenti</h1>
+      </header>
 
-      {/* Modal Creazione User */}
-      <CreateUserModal
-        isOpen={isModalOpen}
-        onClose={onCloseModal}
-        handleAddUser={handleAddUser}
-      />
+      <main className="container mx-auto px-4 py-8">
+        <p className="text-center text-lg text-gray-700">
+          Gestisci i tuoi utenti in modo semplice e intuitivo.
+        </p>
 
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="title">Elenco Utenti</h1>
+        {isLoading ? (
+          <p className="text-center mt-4">Caricamento in corso...</p>
+        ) : (
+          <div className="mt-8 text-center">
+            <p className="text-gray-600">Numero totale di utenti: {totalUsers}</p>
 
-        {/* Lista Utenti */}
-        <main className="main-container">
-          {usersData?.users?.map((user) => (
-            // User Card
-            <UserCard key={user._id} user={user} />
-          ))}
-        </main>
-
-        {/* Paginazione */}
-        <Pagination
-          itemsPerPage={ITEMS_PER_PAGE}
-          totalItems={totalUsers}
-          currentPage={page}
-          handlePageClick={(newPage) => setPage(newPage)}
-        />
-      </div>
+            <div className="flex justify-center gap-4 mt-6">
+                <Link href="/users" className="btn btn-primary">
+                  Visualizza Lista Utenti
+                </Link>
+              <button onClick={() => setIsModalOpen(true)} className="btn btn-secondary">
+                Aggiungi Nuovo Utente
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 };
-
 
 export default Home;
