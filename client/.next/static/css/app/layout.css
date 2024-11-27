@@ -143,7 +143,8 @@ html,
   line-height: 1.5; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
   -moz-tab-size: 4; /* 3 */
-  tab-size: 4; /* 3 */
+  -o-tab-size: 4;
+     tab-size: 4; /* 3 */
   font-family: Arial, Helvetica, sans-serif; /* 4 */
   font-feature-settings: normal; /* 5 */
   font-variation-settings: normal; /* 6 */
@@ -177,7 +178,8 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 */
 
 abbr:where([title]) {
-  text-decoration: underline dotted;
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
 }
 
 /*
@@ -441,6 +443,11 @@ textarea {
 2. Set the default placeholder color to the user's configured gray 400 color.
 */
 
+input::-moz-placeholder, textarea::-moz-placeholder {
+  opacity: 1; /* 1 */
+  color: #9ca3af; /* 2 */
+}
+
 input::placeholder,
 textarea::placeholder {
   opacity: 1; /* 1 */
@@ -548,7 +555,9 @@ video {
   font-weight: 600;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -564,7 +573,9 @@ video {
   line-height: 1.25rem;
   font-weight: 600;
   color: var(--btn-secondary-fg);
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -729,7 +740,8 @@ video {
   background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
 }
 .object-cover {
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .px-4 {
   padding-left: 1rem;
@@ -794,14 +806,6 @@ video {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity, 1));
 }
-.text-gray-700 {
-  --tw-text-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
-}
-.text-gray-800 {
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
-}
 .text-name-text {
   color: var(--name-text);
 }
@@ -819,7 +823,9 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -1163,7 +1169,9 @@ body {
   line-height: 1.25rem;
   font-weight: 500;
   color: var(--navbar-btn);
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -1174,7 +1182,9 @@ body {
 
 .navbar-toast-menu-btn {
   color: var(--accent);
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -1329,7 +1339,8 @@ body {
 .preview-image {
     max-width: 100%;
     max-height: 100%;
-    object-fit: cover; /* Adatta l'immagine al contenitore */
+    -o-object-fit: cover;
+       object-fit: cover; /* Adatta l'immagine al contenitore */
 }
 
 /* User Details */
@@ -1546,18 +1557,15 @@ body {
 .Toastify__toast {
   --y: 0;
   position: relative;
-  -ms-touch-action: none;
-      touch-action: none;
+  touch-action: none;
   min-height: var(--toastify-toast-min-height);
   box-sizing: border-box;
   margin-bottom: 1rem;
   padding: 8px;
   border-radius: var(--toastify-toast-bd-radius);
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: justify;
-      justify-content: space-between;
+  justify-content: space-between;
   max-height: var(--toastify-toast-max-height);
   font-family: var(--toastify-font-family);
   cursor: default;
@@ -1619,26 +1627,19 @@ body {
 }
 .Toastify__toast-body {
   margin: auto 0;
-  -ms-flex: 1 1 auto;
-      flex: 1 1 auto;
+  flex: 1 1 auto;
   padding: 6px;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
 }
 .Toastify__toast-body > div:last-child {
   word-break: break-word;
-  -ms-flex: 1;
-      flex: 1;
+  flex: 1;
 }
 .Toastify__toast-icon {
-  -webkit-margin-end: 10px;
-          margin-inline-end: 10px;
+  margin-inline-end: 10px;
   width: 20px;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  display: -ms-flexbox;
+  flex-shrink: 0;
   display: flex;
 }
 
@@ -1718,8 +1719,7 @@ body {
   cursor: pointer;
   opacity: 0.7;
   transition: 0.3s ease;
-  -ms-flex-item-align: start;
-      align-self: flex-start;
+  align-self: flex-start;
   z-index: 1;
 }
 .Toastify__close-button--light {

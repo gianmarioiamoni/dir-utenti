@@ -11,6 +11,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
+    "/user/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/user/[id]/page.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
     "/users/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -20,11 +30,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/_not-found/page.js"
-    ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
     ]
   }
 }

@@ -46,16 +46,16 @@ const UserDetail = async ({ params }: UserDetailProps) => {
                         <Link href="/users" className="hover:text-blue-500">Users</Link>
                         <span className="mx-2">/</span>
                     </li>
-                    <li className="text-gray-500">{user.nome} {user.cognome}</li>
+                    <li className="text-foreground font-semibold">{user.nome} {user.cognome}</li>
                 </ol>
             </nav>
 
-            <h1 className="text-3xl font-semibold mb-6 text-gray-800">{user.nome} {user.cognome}</h1>
+            <h1 className="text-3xl font-semibold mb-6 text-foreground">{user.nome} {user.cognome}</h1>
 
             {/* Dettagli Utente */}
             <div className="flex flex-col sm:flex-row items-center space-y-6 sm:space-y-0 sm:space-x-6">
                 {/* Foto Profilo */}
-                <div className="w-32 h-32 rounded-full overflow-hidden shadow-lg">
+                <div className="w-32 h-32 text-foreground rounded-full overflow-hidden shadow-lg">
                     <img
                         src={user.fotoProfilo || "/default-avatar.png"}
                         alt="Foto Profilo"
@@ -65,8 +65,8 @@ const UserDetail = async ({ params }: UserDetailProps) => {
 
                 {/* Dettagli */}
                 <div className="flex flex-col space-y-4">
-                    <p className="text-lg text-gray-700"><strong>Email:</strong> {user.email}</p>
-                    <p className="text-lg text-gray-700"><strong>Età:</strong> {age}</p>
+                    <p className="text-lg text-foreground"><strong>Email:</strong> {user.email}</p>
+                    <p className="text-lg text-foreground"><strong>Età:</strong> {age}</p>
                 </div>
             </div>
         </div>
