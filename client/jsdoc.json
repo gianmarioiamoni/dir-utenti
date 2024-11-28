@@ -1,0 +1,12 @@
+{
+  "source": {
+    "include": ["app", "components", "hooks", "services"],
+    "exclude": ["node_modules"],
+    "includePattern": "\\.(ts|tsx|js)$"
+  },
+  "opts": {
+    "destination": "./docs",
+    "template": "default",
+    "recurse": true
+  }
+}

@@ -1,5 +1,14 @@
-import {FC} from "react";
+import { FC } from "react";
 
+/**
+ * Proprietà del componente `Pagination`.
+ *
+ * @typedef {Object} PaginationProps
+ * @property {number} itemsPerPage - Numero di elementi mostrati per pagina.
+ * @property {number} totalItems - Numero totale di elementi da paginare.
+ * @property {number} currentPage - Pagina attualmente selezionata.
+ * @property {(page: number) => void} handlePageClick - Funzione callback invocata al cambio di pagina.
+ */
 interface PaginationProps {
     itemsPerPage: number;
     totalItems: number;
@@ -7,18 +16,34 @@ interface PaginationProps {
     handlePageClick: (page: number) => void;
 }
 
+/**
+ * Componente Pagination per la gestione della paginazione.
+ *
+ * @component
+ * @param {PaginationProps} props - Proprietà passate al componente.
+ * @returns {JSX.Element} - Interfaccia di paginazione.
+ *
+ * @example
+ * <Pagination
+ *   itemsPerPage={10}
+ *   totalItems={50}
+ *   currentPage={1}
+ *   handlePageClick={(page) => console.log("Pagina selezionata:", page)}
+ * />
+ */
 const Pagination: FC<PaginationProps> = ({
     itemsPerPage,
     totalItems,
     currentPage,
     handlePageClick
 }) => {
+    const totalPages = Math.ceil(totalItems / itemsPerPage); // Numero totale di pagine
+    const pageLimit = 5; // Numero massimo di pagine visibili in un gruppo
 
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const pageLimit = 5;
-
+    // Calcolo dell'intervallo di pagine visibili
     const startPage = Math.floor((currentPage - 1) / pageLimit) * pageLimit + 1;
     const endPage = Math.min(startPage + pageLimit - 1, totalPages);
+
     return (
         <div className="flex flex-col items-center justify-center my-8">
             <div className="paging-div">
@@ -91,4 +116,3 @@ const Pagination: FC<PaginationProps> = ({
 };
 
 export default Pagination;
-
