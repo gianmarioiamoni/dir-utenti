@@ -12,7 +12,6 @@ import UserCard from "@/components/UserCard";
 import Loader from "@/components/Loader";
 
 const ITEMS_PER_PAGE = 10;
-
 const UsersList: FC = () => {
   const [page, setPage] = useState(1); // Gestisce la pagina attuale per la paginazione
   const {
