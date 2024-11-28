@@ -1,8 +1,12 @@
-import { format } from "date-fns";
 import { fetchUserDetails } from "@/services/userServices";
 import Link from "next/link";
 
-// Funzione per calcolare l'età
+/**
+ * Calcola l'età di un utente basandosi sulla data di nascita.
+ *
+ * @param {string | Date} birthDate - La data di nascita dell'utente in formato stringa o oggetto Date.
+ * @returns {number} - L'età calcolata dell'utente.
+ */
 const calculateAge = (birthDate: string | Date): number => {
     const birth = new Date(birthDate); // Converte in oggetto Date
     const today = new Date();
@@ -17,12 +21,29 @@ const calculateAge = (birthDate: string | Date): number => {
     return age;
 };
 
+/**
+ * Proprietà del componente `UserDetail`.
+ *
+ * @typedef {Object} UserDetailProps
+ * @property {Object} params - Parametri URL forniti da Next.js.
+ * @property {string} params.id - ID dell'utente da recuperare.
+ */
 interface UserDetailProps {
     params: { id: string };
 }
 
-// La funzione async per il recupero dei dettagli dell'utente
-const UserDetail = async ({ params }: UserDetailProps) => {
+/**
+ * Componente asincrono per visualizzare i dettagli di un utente specifico.
+ *
+ * @async
+ * @param {UserDetailProps} props - Le proprietà passate al componente, incluso l'ID utente.
+ * @returns {JSX.Element} - Il layout con i dettagli dell'utente.
+ *
+ * @example
+ * // Esempio di utilizzo in una rotta dinamica di Next.js
+ * <UserDetail params={{ id: "12345" }} />
+ */
+const UserDetail = async ({ params }: UserDetailProps): Promise<JSX.Element> => {
     // Esegue l'await su params per accedere al valore di 'id'
     const { id } = await params;
 

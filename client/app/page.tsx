@@ -2,15 +2,24 @@
 
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 
 import { useUsers } from "@/hooks/useUsers";
 import { useErrorHandling } from "@/hooks/useErrorHandling";
 import Loader from "@/components/Loader";
-import CreateUserModal from "@/components/CreateUserModal"; 
+import CreateUserModal from "@/components/CreateUserModal";
 
-const Home: FC = () => {
+/**
+ * Componente principale della pagina Home.
+ * Mostra il messaggio di benvenuto, il numero totale di utenti, e fornisce opzioni
+ * per aggiungere nuovi utenti o visualizzare la lista degli utenti esistenti.
+ * 
+ * @component
+ * @returns {JSX.Element} - L'interfaccia utente della pagina Home.
+ */
+const Home: FC<{}> = () => {
   const router = useRouter();
+
   const {
     data,
     isLoading,
@@ -21,20 +30,32 @@ const Home: FC = () => {
     onCloseModal,
     handleAddUser,
   } = useUsers(1, 10);
-  const [totalUsers, setTotalUsers] = useState(0);
 
+  const [totalUsers, setTotalUsers] = useState<number>(0);
+
+  // Gestione degli errori globali
   useErrorHandling(isError, error);
 
+  /**
+   * Aggiorna il numero totale di utenti quando cambia il valore di `data`.
+   */
   useEffect(() => {
     if (data?.total) {
       setTotalUsers(data.total);
     }
   }, [data]);
 
-  // Handler per aggiungere un utente e reindirizzare
-  const handleAddUserAndNavigate = async (newUser: any) => {
+  /**
+   * Gestisce l'aggiunta di un nuovo utente e reindirizza alla pagina degli utenti.
+   *
+   * @async
+   * @function
+   * @param {Object} newUser - Oggetto contenente i dati del nuovo utente.
+   * @returns {Promise<void>}
+   */
+  const handleAddUserAndNavigate = async (newUser: any): Promise<void> => {
     try {
-      await handleAddUser(newUser); 
+      await handleAddUser(newUser);
       router.push("/users"); // Reindirizza alla lista utenti
     } catch (error) {
       console.error("Errore durante l'aggiunta dell'utente:", error);
@@ -55,31 +76,33 @@ const Home: FC = () => {
         </p>
 
         {isLoading ? (
+          /**
+           * Mostra il componente Loader se i dati sono in caricamento.
+           */
           <Loader isLoading={isLoading} />
         ) : (
-            <div className="mt-8 text-center">
-              
-              {totalUsers > 0 ? (
-                <>
-                  <p className="text-gray-600">Numero totale di utenti: {totalUsers}</p>
-                  <div className="flex justify-center gap-4 mt-6">
-                    <button onClick={() => setIsModalOpen(true)} className="btn-secondary">
-                      Aggiungi Nuovo Utente
-                    </button>
-                    <Link href="/users" className="btn-primary">
-                      Visualizza Lista Utenti
-                    </Link>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <p className="text-gray-600">Nessun utente trovato.</p>
-                  <button onClick={() => setIsModalOpen(true)} className="btn-primary mt-2">
+          <div className="mt-8 text-center">
+            {totalUsers > 0 ? (
+              <>
+                <p className="text-gray-600">Numero totale di utenti: {totalUsers}</p>
+                <div className="flex justify-center gap-4 mt-6">
+                  <button onClick={() => setIsModalOpen(true)} className="btn-secondary">
                     Aggiungi Nuovo Utente
                   </button>
-                </>
-              )}
-            </div>
+                  <Link href="/users" className="btn-primary">
+                    Visualizza Lista Utenti
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-gray-600">Nessun utente trovato.</p>
+                <button onClick={() => setIsModalOpen(true)} className="btn-primary mt-2">
+                  Aggiungi Nuovo Utente
+                </button>
+              </>
+            )}
+          </div>
         )}
       </main>
 
@@ -94,4 +117,3 @@ const Home: FC = () => {
 };
 
 export default Home;
-

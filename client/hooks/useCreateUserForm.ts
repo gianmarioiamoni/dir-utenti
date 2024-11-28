@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { NewUser } from "@/interfaces/userInterfaces";
 
+/**
+ * Funzione di validazione dei dati del form per la creazione di un nuovo utente.
+ * Verifica se tutti i campi sono compilati correttamente e se rispettano le regole specifiche.
+ *
+ * @param {NewUser} formData - I dati del nuovo utente da validare.
+ * @returns {{ [key: string]: string }} Oggetto che contiene gli errori di validazione, se presenti.
+ *
+ * @example
+ * const errors = validateInputs({ nome: "Mario", cognome: "Rossi", email: "invalid-email", dataNascita: "2010-01-01" });
+ * // errors = { email: "Inserisci un'email valida.", dataNascita: "Devi avere almeno 14 anni." }
+ */
 function validateInputs(formData: NewUser): { [key: string]: string } {
   const errors: { [key: string]: string } = {};
   const nameRegex = /^[a-zA-Z\s]+$/;
@@ -35,6 +46,26 @@ function validateInputs(formData: NewUser): { [key: string]: string } {
   return errors;
 }
 
+/**
+ * Custom hook per gestire lo stato e la logica di un form per la creazione di un nuovo utente.
+ * Gestisce la validazione dei dati, la gestione degli errori e l'invio dei dati al server.
+ *
+ * @param {Function} handleAddUser - Funzione che gestisce l'aggiunta di un nuovo utente.
+ * @param {Function} onClose - Funzione per chiudere il form dopo l'invio o la cancellazione.
+ * @returns {{
+ *   formData: NewUser;
+ *   formErrors: { [key: string]: string };
+ *   errorMessage: string | null;
+ *   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+ *   handleSubmit: (e: React.FormEvent) => void;
+ *   handleCancel: () => void;
+ *   setFormData: React.Dispatch<React.SetStateAction<NewUser>>;
+ *   setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
+ * }} Oggetto contenente lo stato del form, le funzioni di gestione e gli eventuali errori.
+ *
+ * @example
+ * const { formData, handleChange, handleSubmit, formErrors } = useCreateUserForm(handleAddUser, onClose);
+ */
 export function useCreateUserForm(
   handleAddUser: (newUser: NewUser) => void,
   onClose: () => void
@@ -49,11 +80,21 @@ export function useCreateUserForm(
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  /**
+   * Gestisce il cambiamento dei valori nei campi del form.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - L'evento di cambiamento.
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  /**
+   * Gestisce l'invio del form. Se i dati sono validi, invia i dati tramite `handleAddUser`.
+   *
+   * @param {React.FormEvent} e - L'evento di invio del form.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateInputs(formData);
@@ -79,6 +120,9 @@ export function useCreateUserForm(
     }
   };
 
+  /**
+   * Gestisce l'annullamento del form. Resetta i dati e chiude il form.
+   */
   const handleCancel = () => {
     setFormData({
       nome: "",
